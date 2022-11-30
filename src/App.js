@@ -7,9 +7,10 @@ import { PostList } from "./PostList";
 
 function App() {
   const [post, setPost] = useState({
-    title: "",
-    description: "",
+    title: "title",
+    description: "description",
   });
+  const [forChange, setForChange] = useState();
   const [posts, setPosts] = useState([
     { id: 1, title: "Aboba", description: "Ivanovich" },
     { id: 2, title: "Zopa", description: "Abobovich" },
@@ -23,10 +24,28 @@ function App() {
     setPosts([...posts, newPost]);
   };
 
-  const postId = (id) => {
+  const getPost = (id) => {
     const getPost = posts.find((el) => el.id === id);
-    console.log(post);
+    setForChange(getPost);
     setPost({ title: getPost.title, description: getPost.description });
+  };
+
+  const changePost = (e) => {
+    setPost({ ...post, title: e.target.value });
+    const changedPost = {
+      ...forChange,
+      title: e.target.value,
+    };
+    console.log(changedPost);
+    const mappedPosts = posts.map((el) => {
+      if (el.id === changedPost.id) {
+        return { ...changedPost };
+      } else {
+        return { ...el };
+      }
+    });
+    console.log(mappedPosts);
+    setPosts([...mappedPosts]);
   };
 
   return (
@@ -49,7 +68,7 @@ function App() {
           <Button onClick={addPost} variant="contained">
             Add new post
           </Button>
-          <PostList posts={posts} postId={postId} />
+          <PostList posts={posts} getPost={getPost} />
         </Box>
         <Box
           component="form"
@@ -58,16 +77,13 @@ function App() {
           <FormControl>
             <TextField
               value={post.title}
-              onChange={(e) => setPost({ ...post, title: e.target.value })}
+              onChange={changePost}
               sx={{ m: 2 }}
               variant="outlined"
               label="title"
             />
             <TextField
               value={post.description}
-              onChange={(e) =>
-                setPost({ ...post, description: e.target.value })
-              }
               sx={{ m: 2 }}
               variant="outlined"
               label="description"
