@@ -20,9 +20,11 @@ function App() {
 
   const getPostById = (id) => {
     const getPost = posts.find((el) => el.id === id);
-    console.log(getPost);
-    setForChange(getPost);
-    // setPost({ title: getPost.title, description: getPost.description });
+    setForChange({ ...getPost });
+  };
+
+  const changePost = (post) => {
+    console.log(post);
   };
 
   // const changePost = (e) => {
@@ -49,7 +51,7 @@ function App() {
           <PostCreate addPost={addPost} />
           <PostList posts={posts} getPostById={getPostById} />
         </Box>
-        <PostForm forChange={forChange} />
+        <PostForm forChange={forChange} changePost={changePost} />
       </div>
     </div>
   );

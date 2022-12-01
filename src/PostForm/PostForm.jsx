@@ -2,17 +2,27 @@ import { Box, TextField } from "@mui/material";
 import { FormControl } from "@mui/material";
 import { useEffect, useState } from "react";
 
-export const PostForm = ({ forChange }) => {
+export const PostForm = ({ forChange, changePost }) => {
   const [post, setPost] = useState({
     title: "title",
     description: "description",
   });
 
   useEffect(() => {
-    setPost({
-      ...forChange,
-    });
-  }, [post, forChange]);
+    if (!forChange) {
+      console.log("Udefined");
+    } else {
+      setPost({ ...forChange });
+    }
+  }, [forChange]);
+
+  useEffect(() => {
+    changePost(post);
+  });
+
+  const setValue = (e) => {
+    setPost((prev) => (prev = { ...post, title: e.target.value }));
+  };
 
   return (
     <Box
@@ -25,8 +35,14 @@ export const PostForm = ({ forChange }) => {
           sx={{ m: 2 }}
           variant="outlined"
           label="title"
+          onChange={setValue}
         />
-        <TextField sx={{ m: 2 }} variant="outlined" label="description" />
+        {/* <TextField
+          value={post.description}
+          sx={{ m: 2 }}
+          variant="outlined"
+          label="description"
+        /> */}
       </FormControl>
     </Box>
   );
