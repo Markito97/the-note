@@ -19,13 +19,15 @@ function App() {
   const addPost = () => {
     const newPost = {
       id: uuidv4(),
-      ...post,
+      title: "title",
+      description: "description",
     };
     setPosts([...posts, newPost]);
   };
 
   const getPost = (id) => {
     const getPost = posts.find((el) => el.id === id);
+    console.log(getPost);
     setForChange(getPost);
     setPost({ title: getPost.title, description: getPost.description });
   };
@@ -36,7 +38,6 @@ function App() {
       ...forChange,
       title: e.target.value,
     };
-    console.log(changedPost);
     const mappedPosts = posts.map((el) => {
       if (el.id === changedPost.id) {
         return { ...changedPost };
@@ -44,7 +45,6 @@ function App() {
         return { ...el };
       }
     });
-    console.log(mappedPosts);
     setPosts([...mappedPosts]);
   };
 
@@ -64,7 +64,7 @@ function App() {
         </AppBar>
       </Box>
       <div className="container">
-        <Box sx={{ p: 2, border: "var(--Grid-borderWidth) solid" }}>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
           <Button onClick={addPost} variant="contained">
             Add new post
           </Button>
