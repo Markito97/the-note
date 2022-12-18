@@ -1,20 +1,23 @@
-import { List, Box } from "@mui/material";
+import { List } from "@mui/material";
 import { PostListItem } from "./PostListItem";
 
-export const PostList = ({ posts, getPostById }) => {
+export const PostList = ({
+  posts,
+  handleCurrentPost,
+  removePost,
+  setFavortitePost,
+}) => {
   return (
-    <Box
-      sx={{
-        width: "100%",
-        maxWidth: 500,
-        bgcolor: "background.paper",
-      }}
-    >
-      <List>
-        {posts.map((post, index) => (
-          <PostListItem key={index + 1} post={post} getPostById={getPostById} />
-        ))}
-      </List>
-    </Box>
+    <List>
+      {posts.map((post, index) => (
+        <PostListItem
+          setFavortitePost={setFavortitePost}
+          removePost={removePost}
+          handleCurrentPost={handleCurrentPost}
+          key={index + 1}
+          post={post}
+        />
+      ))}
+    </List>
   );
 };

@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { v4 as uuidv4 } from "uuid";
 
 export const PostCreate = ({ addPost }) => {
@@ -8,11 +8,14 @@ export const PostCreate = ({ addPost }) => {
       title: "title",
       description: "description",
     };
+
     addPost(newPost);
   };
   return (
-    <Button onClick={createPost} variant="contained">
-      Add new post
-    </Button>
+    <Box sx={{ p: 1 }}>
+      <Button sx={{ width: "100%" }} onClick={createPost} variant="contained">
+        Add new post
+      </Button>
+    </Box>
   );
 };

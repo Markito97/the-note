@@ -4,13 +4,19 @@
   box-sizing: border-box;
 }
 
-.App {
-  display: flex;
-  flex-direction: column;
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
+
+ul,
+li {
+  padding: 0;
 }
 
 .container {
-  height: calc(100vh - 50px);
-  width: 100%;
   display: flex;
+  width: 100%;
+  height: calc(100vh - 78px);
 }
