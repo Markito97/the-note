@@ -2,8 +2,8 @@ import { Search } from "@mui/icons-material";
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import { FavoritesList } from "../FavoritesList.jsx/FavoritesList";
 import { PostList } from "../PostList/PostList";
-import { tokens } from "../theme";
-import { PostCreate } from "../components/PostCreate/PostCreate";
+import { tokens } from "../../assets/themes/theme";
+import { PostCreate } from "../PostCreate/PostCreate";
 
 export const SideBar = ({
   posts,

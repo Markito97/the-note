@@ -1,21 +1,25 @@
 import { Box, TextField, useTheme } from "@mui/material";
 import { FormControl } from "@mui/material";
-import { useState } from "react";
-import { tokens } from "../theme";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
+import { tokens } from "../../assets/themes/theme";
 import { Editor } from "../Editor/Editor";
 
-export const PostForm = ({ currentPost, changePost }) => {
+export const PostForm = ({
+  currentTitle,
+  currentDescription,
+  changePost,
+  posts,
+}) => {
   const [title, setTitle] = useState("");
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   useEffect(() => {
-    if (!currentPost) {
+    if (!currentTitle) {
       console.log(undefined);
     } else {
-      setTitle(currentPost.title);
+      setTitle(currentTitle.title);
     }
-  }, [currentPost]);
+  }, [currentTitle]);
 
   return (
     <Box sx={{ bgcolor: `${colors.primary[500]}`, width: "100%" }}>
@@ -30,7 +34,7 @@ export const PostForm = ({ currentPost, changePost }) => {
           placeholder="Untitled"
           sx={{ width: 570, p: 1 }}
         />
-        <Editor />
+        <Editor posts={posts} currentDescription={currentDescription} />
       </FormControl>
     </Box>
   );

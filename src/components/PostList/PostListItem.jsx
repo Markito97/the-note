@@ -1,6 +1,7 @@
 import { ListItem, Box } from "@mui/material";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import { PostListPopupMenu } from "./PostListPopupMenu";
+import { Description } from "@mui/icons-material";
 
 const itemStyle = {
   display: "flex",
@@ -32,6 +33,7 @@ export const PostListItem = ({
             }}
           >
             {post.title}
+            {post.description}
           </Box>
         </div>
       </ListItem>

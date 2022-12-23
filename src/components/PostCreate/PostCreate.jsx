@@ -1,6 +1,6 @@
 import { useTheme } from "@emotion/react";
 import { Button, Typography } from "@mui/material";
-import { tokens } from "../../theme";
+import { tokens } from "../../assets/themes/theme";
 import { v4 as uuidv4 } from "uuid";
 import AddIcon from "@mui/icons-material/Add";
 

@@ -1,39 +1,49 @@
 import "./App.css";
-import "./Editor/EditorStyle.css";
+import "./components/Editor/EditorStyle.css";
 import { ThemeProvider, Box } from "@mui/material";
-import { NavBar } from "./NavBar/NavBar";
-import { ColorModeContext, useMode } from "./theme";
-import { PostForm } from "./PostForm/PostForm";
+import { NavBar } from "./components/NavBar/NavBar";
+import { ColorModeContext, useMode } from "./assets/themes/theme";
+import { PostForm } from "./components/PostForm/PostForm";
 import { useState } from "react";
-import { SideBar } from "./SideBar/SideBar";
+import { SideBar } from "./components/SideBar/SideBar";
 
 function App() {
   const [posts, setPosts] = useState([
-    { id: "1", title: "Aboba", description: "description", favorite: false },
+    {
+      id: "1",
+      title: "Aboba",
+      description:
+        '{"editorState":{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"description1","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}}',
+      favorite: false,
+    },
     {
       id: "2",
       title: "General Aboba",
-      description: "description",
+      description:
+        '{"editorState":{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"description2","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}}',
       favorite: false,
     },
     {
       id: "3",
       title: "Mega Aboba",
-      description: "description",
+      description:
+        '{"editorState":{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"description3","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}}',
       favorite: false,
     },
   ]);
   const [favoritePosts, setFavoritePosts] = useState([]);
   const [postId, setPostId] = useState("");
   const [theme, colorMode] = useMode();
-  const [currentPost, setCurrentPost] = useState("");
+  const [currentTitle, setCurrentTitle] = useState();
+  const [currentDescription, setCurrentDescription] = useState();
   const addPost = (post) => {
     setPosts([...posts, post]);
   };
   const handleCurrentPost = (id) => {
     const foundPost = posts.find((el) => el.id === id);
     setPostId((prev) => (prev = id));
-    setCurrentPost((prev) => (prev = foundPost));
+    setCurrentTitle((prev) => (prev = foundPost));
+    setCurrentDescription((prev) => (prev = foundPost));
   };
 
   const removePost = () => {
@@ -63,6 +73,7 @@ function App() {
     });
     setPosts([...postForChange]);
   };
+  const changeDescription = (description) => {};
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -77,7 +88,13 @@ function App() {
             removePost={removePost}
             handleCurrentPost={handleCurrentPost}
           />
-          <PostForm currentPost={currentPost} changePost={changePost} />
+          <PostForm
+            posts={posts}
+            currentTitle={currentTitle}
+            currentDescription={currentDescription}
+            changePost={changePost}
+            changeDescription={changeDescription}
+          />
         </Box>
       </ThemeProvider>
     </ColorModeContext.Provider>

@@ -13,6 +13,8 @@ import { CodeHighlightNode, CodeNode } from "@lexical/code";
 import { AutoLinkNode, LinkNode } from "@lexical/link";
 import { LinkPlugin } from "@lexical/react/LexicalLinkPlugin";
 import { ListPlugin } from "@lexical/react/LexicalListPlugin";
+import { CodeHighlightPlugin } from "./plugins/CodeHighlightPlugin";
+import { OnChangePlugin } from "@lexical/react/LexicalOnChangePlugin";
 
 const editorConfig = {
   theme: ExampleTheme,
@@ -34,19 +36,24 @@ const editorConfig = {
   ],
 };
 
-export const Editor = () => {
+export const Editor = ({ posts, currentDescription }) => {
   return (
-    <LexicalComposer initialConfig={editorConfig}>
+    <LexicalComposer
+      initialConfig={editorConfig}
+      currentDescription={currentDescription}
+    >
       <div className="editor-container">
-        <ToolbarPlugin />
+        <ToolbarPlugin posts={posts} currentDescription={currentDescription} />
         <div className="editor-inner">
           <RichTextPlugin
             contentEditable={<ContentEditable className="editor-input" />}
             ErrorBoundary={LexicalErrorBoundary}
           />
+          <OnChangePlugin />
+
           <HistoryPlugin />
           <AutoFocusPlugin />
-          {/* <CodeHighlightPlugin /> */}
+          <CodeHighlightPlugin />
           <ListPlugin />
           <LinkPlugin />
           {/* <AutoLinkPlugin /> */}
