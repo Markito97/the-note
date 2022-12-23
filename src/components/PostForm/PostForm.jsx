@@ -15,7 +15,6 @@ export const PostForm = ({
   const colors = tokens(theme.palette.mode);
   useEffect(() => {
     if (!currentTitle) {
-      console.log(undefined);
     } else {
       setTitle(currentTitle.title);
     }

@@ -52,19 +52,17 @@ export const ToolbarPlugin = ({ posts, currentDescription }) => {
   const colors = tokens(theme.palette.mode);
   const [editor] = useLexicalComposerContext();
   const [state, dispatch] = useReducer(reducer, initialState);
-  const [test, setTest] = useState(
-    '{"editorState":{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"123","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}}'
-  );
-  console.log(JSON.stringify(editor));
-
   useEffect(() => {
-    // console.log(currentDescription.description);
-    const editorState = editor.parseEditorState(test);
-    console.log(editorState);
-    // const editorState = editor.parseEditorState(
-    //   currentDescription.description
-    // editor.setEditorState(editorState);
-  });
+    const editorState = editor.getEditorState();
+    const jsonString = JSON.stringify(editorState);
+    // console.log(jsonString);
+    if (currentDescription !== undefined) {
+      const parsedStateFromJson = editor.parseEditorState(
+        currentDescription.description
+      );
+      editor.setEditorState(parsedStateFromJson);
+    }
+  }, [currentDescription]);
 
   const toolbarRef = useRef(null);
   const [blockType, setBlockType] = useState("paragraph");

@@ -13,23 +13,23 @@ function App() {
       id: "1",
       title: "Aboba",
       description:
-        '{"editorState":{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"description1","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}}',
+        '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"123123123","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}',
       favorite: false,
     },
-    {
-      id: "2",
-      title: "General Aboba",
-      description:
-        '{"editorState":{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"description2","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}}',
-      favorite: false,
-    },
-    {
-      id: "3",
-      title: "Mega Aboba",
-      description:
-        '{"editorState":{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"description3","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}}',
-      favorite: false,
-    },
+    // {
+    //   id: "2",
+    //   title: "General Aboba",
+    //   description:
+    //     '{"editorState":{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"description2","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}}',
+    //   favorite: false,
+    // },
+    // {
+    //   id: "3",
+    //   title: "Mega Aboba",
+    //   description:
+    //     '{"editorState":{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"description3","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}}',
+    //   favorite: false,
+    // },
   ]);
   const [favoritePosts, setFavoritePosts] = useState([]);
   const [postId, setPostId] = useState("");
