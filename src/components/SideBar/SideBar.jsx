@@ -4,6 +4,7 @@ import { FavoritesList } from "../FavoritesList.jsx/FavoritesList";
 import { PostList } from "../PostList/PostList";
 import { tokens } from "../../assets/themes/theme";
 import { PostCreate } from "../PostCreate/PostCreate";
+import { useState } from "react";
 
 export const SideBar = ({
   posts,

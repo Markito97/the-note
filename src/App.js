@@ -6,39 +6,40 @@ import { ColorModeContext, useMode } from "./assets/themes/theme";
 import { PostForm } from "./components/PostForm/PostForm";
 import { useState } from "react";
 import { SideBar } from "./components/SideBar/SideBar";
+import { useEffect } from "react";
+import { CustomEditor } from "./CustomEditor/CustomEditor";
 
 function App() {
   const [posts, setPosts] = useState([
     {
       id: "1",
       title: "Aboba",
-      description:
-        '{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"123123123","type":"text","version":1}],"direction":null,"format":"","indent":0,"type":"paragraph","version":1}],"direction":null,"format":"","indent":0,"type":"root","version":1}}',
+      description: "Mixailovich",
       favorite: false,
     },
-    // {
-    //   id: "2",
-    //   title: "General Aboba",
-    //   description:
-    //     '{"editorState":{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"description2","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}}',
-    //   favorite: false,
-    // },
-    // {
-    //   id: "3",
-    //   title: "Mega Aboba",
-    //   description:
-    //     '{"editorState":{"root":{"children":[{"children":[{"detail":0,"format":0,"mode":"normal","style":"","text":"description3","type":"text","version":1}],"direction":"ltr","format":"","indent":0,"type":"paragraph","version":1}],"direction":"ltr","format":"","indent":0,"type":"root","version":1}}}',
-    //   favorite: false,
-    // },
+    {
+      id: "2",
+      title: "General Aboba",
+      description: "Petrovich",
+      favorite: false,
+    },
+    {
+      id: "3",
+      title: "Mega Aboba",
+      description: null,
+      favorite: false,
+    },
   ]);
   const [favoritePosts, setFavoritePosts] = useState([]);
   const [postId, setPostId] = useState("");
   const [theme, colorMode] = useMode();
   const [currentTitle, setCurrentTitle] = useState();
   const [currentDescription, setCurrentDescription] = useState();
+
   const addPost = (post) => {
     setPosts([...posts, post]);
   };
+
   const handleCurrentPost = (id) => {
     const foundPost = posts.find((el) => el.id === id);
     setPostId((prev) => (prev = id));
@@ -59,21 +60,31 @@ function App() {
   const changePost = (post) => {
     const postForChange = posts.map((item) => {
       if (item.id === postId) {
-        const newValue = {
+        return {
           ...item,
           title: post,
         };
-        if (newValue.title === "") {
-          newValue.title = "Untitled";
-        }
-        return newValue;
       } else {
         return { ...item };
       }
     });
     setPosts([...postForChange]);
   };
-  const changeDescription = (description) => {};
+
+  const changeDescription = (description) => {
+    const changeDescription = posts.map((post) => {
+      if (post.id === postId) {
+        return {
+          ...post,
+          description: description,
+        };
+      } else {
+        return { ...post };
+      }
+    });
+
+    setPosts([...changeDescription]);
+  };
 
   return (
     <ColorModeContext.Provider value={colorMode}>
@@ -89,7 +100,6 @@ function App() {
             handleCurrentPost={handleCurrentPost}
           />
           <PostForm
-            posts={posts}
             currentTitle={currentTitle}
             currentDescription={currentDescription}
             changePost={changePost}

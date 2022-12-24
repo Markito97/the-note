@@ -19,7 +19,12 @@ export const PostListItem = ({
   setFavortitePost,
 }) => {
   return (
-    <Box sx={itemStyle} onClick={() => handleCurrentPost(post.id)}>
+    <Box
+      sx={itemStyle}
+      onClick={() => {
+        handleCurrentPost(post.id);
+      }}
+    >
       <ArticleOutlinedIcon sx={{ width: 24, height: 24 }} />
       <ListItem>
         <div style={{ width: 194, whiteSpace: "nowrap" }}>

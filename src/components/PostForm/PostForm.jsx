@@ -2,13 +2,13 @@ import { Box, TextField, useTheme } from "@mui/material";
 import { FormControl } from "@mui/material";
 import { useState, useEffect } from "react";
 import { tokens } from "../../assets/themes/theme";
-import { Editor } from "../Editor/Editor";
+import { CustomEditor } from "../../CustomEditor/CustomEditor";
 
 export const PostForm = ({
   currentTitle,
-  currentDescription,
   changePost,
-  posts,
+  currentDescription,
+  changeDescription,
 }) => {
   const [title, setTitle] = useState("");
   const theme = useTheme();
@@ -33,7 +33,10 @@ export const PostForm = ({
           placeholder="Untitled"
           sx={{ width: 570, p: 1 }}
         />
-        <Editor posts={posts} currentDescription={currentDescription} />
+        <CustomEditor
+          changeDescription={changeDescription}
+          currentDescription={currentDescription}
+        />
       </FormControl>
     </Box>
   );

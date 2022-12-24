@@ -36,14 +36,18 @@ const editorConfig = {
   ],
 };
 
-export const Editor = ({ posts, currentDescription }) => {
+export const Editor = ({ posts, currentDescription, changeDescription }) => {
   return (
     <LexicalComposer
       initialConfig={editorConfig}
       currentDescription={currentDescription}
     >
       <div className="editor-container">
-        <ToolbarPlugin posts={posts} currentDescription={currentDescription} />
+        <ToolbarPlugin
+          posts={posts}
+          currentDescription={currentDescription}
+          changeDescription={changeDescription}
+        />
         <div className="editor-inner">
           <RichTextPlugin
             contentEditable={<ContentEditable className="editor-input" />}
@@ -56,9 +60,6 @@ export const Editor = ({ posts, currentDescription }) => {
           <CodeHighlightPlugin />
           <ListPlugin />
           <LinkPlugin />
-          {/* <AutoLinkPlugin /> */}
-          {/* <ListMaxIndentLevelPlugin maxDepth={7} /> */}
-          {/* <MarkdownShortcutPlugin transformers={TRANSFORMERS} /> */}
         </div>
       </div>
     </LexicalComposer>

@@ -8,6 +8,7 @@ import {
   $getSelection,
   $isRangeSelection,
   $getNodeByKey,
+  $createParagraphNode,
 } from "lexical";
 import { $isLinkNode, TOGGLE_LINK_COMMAND } from "@lexical/link";
 import { $isParentElementRTL, $isAtNodeEnd } from "@lexical/selection";
@@ -47,22 +48,25 @@ export const getSelectedNode = (selection) => {
   }
 };
 
-export const ToolbarPlugin = ({ posts, currentDescription }) => {
+export const ToolbarPlugin = ({
+  posts,
+  currentDescription,
+  changeDescription,
+}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [editor] = useLexicalComposerContext();
   const [state, dispatch] = useReducer(reducer, initialState);
+
   useEffect(() => {
-    const editorState = editor.getEditorState();
-    const jsonString = JSON.stringify(editorState);
-    // console.log(jsonString);
+    console.log("Effect");
     if (currentDescription !== undefined) {
       const parsedStateFromJson = editor.parseEditorState(
         currentDescription.description
       );
       editor.setEditorState(parsedStateFromJson);
     }
-  }, [currentDescription]);
+  }, [changeDescription]);
 
   const toolbarRef = useRef(null);
   const [blockType, setBlockType] = useState("paragraph");
