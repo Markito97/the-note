@@ -8,12 +8,17 @@ export const CustomEditor = ({ currentDescription, changeDescription }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [description, setDescription] = useState("");
+  const [selected, setSelected] = useState("");
+  const [field, setField] = useState("");
   const descRef = createRef();
+
+  console.log(description);
 
   useEffect(() => {
     console.log("Effect");
     if (currentDescription !== undefined) {
       descRef.current.innerText = currentDescription.description;
+      setDescription(currentDescription.description);
     }
   }, [currentDescription]);
 
@@ -21,18 +26,30 @@ export const CustomEditor = ({ currentDescription, changeDescription }) => {
     changeDescription(e.target.innerText);
   };
 
-  const setBold = (e) => {
+  const setBold = () => {
+    descRef.current.style.fontWeight = "bold";
+    // console.log(descRef.current.innerText)
+    // const fristString = description;
+    // const secondString = selected;
+    // const subString = "!123!";
+    // const start = fristString.indexOf(secondString);
+    // const end = fristString.slice(start + secondString.length);
+    // setField(fristString.slice(0, start) + subString + end);
+    // setDescription(fristString.slice(0, start) + subString + end);
+    // changeDescription(fristString.slice(0, start) + subString + end);
+  };
+
+  const handleTextFromField = (e) => {
     let selection = document.getSelection();
     let selectedLeftToRight = e.target.innerText.slice(
       selection.anchorOffset,
       selection.focusOffset
     );
-    console.log(selectedLeftToRight);
+    setSelected(selectedLeftToRight);
     let selectedRightToLeft = e.target.innerText.slice(
       selection.focusOffset,
       selection.anchorOffset
     );
-    console.log(selectedRightToLeft);
   };
 
   return (
@@ -46,10 +63,12 @@ export const CustomEditor = ({ currentDescription, changeDescription }) => {
         sx={{ color: `${colors.grey[100]}` }}
         ref={descRef}
         onInput={test}
-        onSelect={setBold}
+        onSelect={handleTextFromField}
         style={{ width: "570px" }}
         contentEditable
-      ></Box>
+      >
+        {field}
+      </Box>
     </Box>
   );
 };
