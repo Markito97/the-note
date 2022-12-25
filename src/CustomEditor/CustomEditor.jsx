@@ -14,8 +14,6 @@ export const CustomEditor = ({ currentDescription, changeDescription }) => {
   const [isBold, setIsBold] = useState(false);
   const descRef = createRef();
 
-  console.log(description);
-
   useEffect(() => {
     console.log("Effect");
     if (currentDescription !== undefined) {
@@ -34,21 +32,42 @@ export const CustomEditor = ({ currentDescription, changeDescription }) => {
 
   // Через рендер реакт почему-то не получается добавлять элемент в текстовое поле с атрибутом contentEditable, через js норм
   function setBold() {
-    const strong = document.createElement("strong");
-    const span = document.querySelector(".normal-text");
-    strong.style.fontWeight = "bold";
-    strong.innerText = description;
-    descRef.current.append(strong);
-    span.remove();
-    // } else {
-    //   descRef.current.append(span);
-    // }
-    // console.log(isBold);
+    const strongBold = document.createElement("strong");
+    const normalText = document.querySelector(".normal-text");
+    const arrOfStrings = [];
+    const firstStringIdx = description.indexOf(selected);
+    const startString = description.slice(0, firstStringIdx);
+    const endString = description.slice(firstStringIdx + selected.length);
+    console.log(
+      `Начало: ${startString} середина: ${selected} конец: ${endString} `
+    );
+    arrOfStrings.push(startString, selected, endString);
+    console.log(arrOfStrings);
+    for (let i = 0; i < arrOfStrings.length; i++) {
+      if (normalText) normalText.remove();
+      const spanText = document.createElement("span");
+      if (arrOfStrings[i] === selected) {
+        strongBold.innerText = selected;
+        strongBold.style.fontWeight = "bold";
+        descRef.current.append(strongBold);
+      } else {
+        spanText.innerText = arrOfStrings[i];
+        descRef.current.append(spanText);
+      }
+    }
     // const fristString = description;
     // const secondString = selected;
-    // const subString = "!123!";
     // const start = fristString.indexOf(secondString);
     // const end = fristString.slice(start + secondString.length);
+    // // console.log(fristString.slice(0, start));
+    // // console.log(secondString);
+    // const strong = document.createElement("strong");
+    // const span = document.querySelector(".normal-text");
+    // span.innerText = fristString.slice(0, start);
+    // strong.style.fontWeight = "bold";
+    // strong.innerText = selected;
+    // descRef.current.append(strong);
+    // span.remove();
     // setField(fristString.slice(0, start) + subString + end);
     // setDescription(fristString.slice(0, start) + subString + end);
     // changeDescription(fristString.slice(0, start) + subString + end);
@@ -60,14 +79,13 @@ export const CustomEditor = ({ currentDescription, changeDescription }) => {
       selection.anchorOffset,
       selection.focusOffset
     );
+    console.log(selectedLeftToRight);
     setSelected(selectedLeftToRight);
     let selectedRightToLeft = e.target.innerText.slice(
       selection.focusOffset,
       selection.anchorOffset
     );
   };
-
-  console.log(description);
 
   return (
     <Box>
