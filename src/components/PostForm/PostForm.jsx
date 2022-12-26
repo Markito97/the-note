@@ -4,21 +4,16 @@ import { useState, useEffect } from "react";
 import { tokens } from "../../assets/themes/theme";
 import { CustomEditor } from "../../CustomEditor/CustomEditor";
 
-export const PostForm = ({
-  currentTitle,
-  changePost,
-  currentDescription,
-  changeDescription,
-}) => {
+export const PostForm = ({ isCurrentPost, changePost, changeDescription }) => {
   const [title, setTitle] = useState("");
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   useEffect(() => {
-    if (!currentTitle) {
+    if (!isCurrentPost) {
     } else {
-      setTitle(currentTitle.title);
+      setTitle(isCurrentPost.title);
     }
-  }, [currentTitle]);
+  }, [isCurrentPost]);
 
   return (
     <Box sx={{ bgcolor: `${colors.primary[500]}`, width: "100%" }}>
@@ -34,8 +29,8 @@ export const PostForm = ({
           sx={{ width: 570, p: 1 }}
         />
         <CustomEditor
+          isCurrentPost={isCurrentPost}
           changeDescription={changeDescription}
-          currentDescription={currentDescription}
         />
       </FormControl>
     </Box>

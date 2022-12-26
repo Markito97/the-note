@@ -6,8 +6,6 @@ import { ColorModeContext, useMode } from "./assets/themes/theme";
 import { PostForm } from "./components/PostForm/PostForm";
 import { useState } from "react";
 import { SideBar } from "./components/SideBar/SideBar";
-import { useEffect } from "react";
-import { CustomEditor } from "./CustomEditor/CustomEditor";
 
 function App() {
   const [posts, setPosts] = useState([
@@ -33,18 +31,16 @@ function App() {
   const [favoritePosts, setFavoritePosts] = useState([]);
   const [postId, setPostId] = useState("");
   const [theme, colorMode] = useMode();
-  const [currentTitle, setCurrentTitle] = useState();
-  const [currentDescription, setCurrentDescription] = useState();
+  const [isCurrentPost, setIsCurrentPost] = useState();
 
   const addPost = (post) => {
     setPosts([...posts, post]);
   };
 
   const handleCurrentPost = (id) => {
-    const foundPost = posts.find((el) => el.id === id);
+    const currentPost = posts.find((el) => el.id === id);
     setPostId((prev) => (prev = id));
-    setCurrentTitle((prev) => (prev = foundPost));
-    setCurrentDescription((prev) => (prev = foundPost));
+    setIsCurrentPost((post) => (post = currentPost));
   };
 
   const removePost = () => {
@@ -100,8 +96,7 @@ function App() {
             handleCurrentPost={handleCurrentPost}
           />
           <PostForm
-            currentTitle={currentTitle}
-            currentDescription={currentDescription}
+            isCurrentPost={isCurrentPost}
             changePost={changePost}
             changeDescription={changeDescription}
           />
