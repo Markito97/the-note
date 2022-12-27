@@ -35,10 +35,6 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
     }
   }, [isCurrentPost]);
 
-  useEffect(() => {
-    console.log("Effect");
-  }, []);
-
   const test = (e) => {
     changeDescription(e.target.innerText);
   };
@@ -49,31 +45,35 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
 
   const handleSelectionInEditorField = () => {
     const selection = document.getSelection().toString();
+    const selection1 = document.getSelection();
+    console.log(selection1);
     const start = editor[0].content.indexOf(selection);
-    console.log(start);
     const end = start + selection.length;
-    const indexes = {
-      start: null,
-      end: null,
+    return {
+      startBold: start,
+      endBold: end,
+      startNormal: end,
+      endNormal: editor[0].content.length,
     };
-
-    indexes.start = start;
-    indexes.end = end;
-
-    return indexes;
   };
 
   const setBold = () => {
     const ranges = handleSelectionInEditorField();
     console.log(ranges);
-    if (ranges.start === 0 && ranges.end === 0) return;
+    // if (ranges.start === 0 && ranges.end === 0) return;
     const updateState = editor.map((item) => {
       if (item.id === 1) {
         return {
           ...item,
           style: [
             {
-              bold: [...item.style[0].bold, ranges],
+              bold: [...item.style[0].bold],
+            },
+            {
+              normal: [
+                ...item.style[1].normal,
+                { start: ranges.end, end: ranges.length },
+              ],
             },
           ],
         };

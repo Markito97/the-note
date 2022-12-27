@@ -16,6 +16,12 @@ export const Field = ({ editor, currentField }) => {
     return c;
   };
 
+  // const res = parseString(
+  //   editor[0].content,
+  //   editor[0].style[0].bold,
+  //   editor[0].style[1].normal
+  // );
+
   const res = parseString(
     editor[0].content,
     [
@@ -30,17 +36,28 @@ export const Field = ({ editor, currentField }) => {
     ]
   );
 
+  console.log(res);
+
   return (
     <>
       {editor.map((field) => (
         <p id={field.id} key={uuidv4()}>
-          {res.map((el) => {
-            if (typeof el === "object") {
-              return <strong key={uuidv4()}>{el.bold}</strong>;
-            } else {
-              return <span key={uuidv4()}>{el}</span>;
-            }
-          })}
+          {res.length === 0
+            ? editor[0].content
+            : res.map((el) => {
+                if (typeof el === "object") {
+                  return (
+                    <strong
+                      style={{ color: "green", fontSize: "26px" }}
+                      key={uuidv4()}
+                    >
+                      {el.bold}
+                    </strong>
+                  );
+                } else {
+                  return <span key={uuidv4()}>{el}</span>;
+                }
+              })}
         </p>
       ))}
     </>
