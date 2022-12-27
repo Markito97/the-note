@@ -3,9 +3,7 @@ import { Box } from "@mui/system";
 import { createRef, useEffect, useState } from "react";
 import { tokens } from "../assets/themes/theme";
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
-import { EightK } from "@mui/icons-material";
 import { Field } from "./Field";
-import { Count } from "./Count";
 
 export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
   const theme = useTheme();
@@ -18,16 +16,11 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
       id: 1,
       type: "Paragraph",
       content: "this is a text",
-      style: [
-        {
-          bold: [],
-        },
-        {
-          normal: [],
-        },
-      ],
+      style: [],
     },
   ]);
+  const [ranges, setRanges] = useState([]);
+  const [curRange, setCurRange] = useState(null);
 
   useEffect(() => {
     if (!isCurrentPost) {
@@ -43,43 +36,63 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
     setCurrentFieldId(id);
   };
 
+  // const rangeHighlight = (text) => {
+  //   const root = descRef.current.firstChild;
+  //   const content = root.nodeValue;
+  //   console.log(content);
+  //   if (~content.indexOf(text)) {
+  //     if (document.createRange) {
+  //       const range = new Range();
+  //       range.setStart(root, content.indexOf(text));
+  //       range.setEnd(root, content.indexOf(text) + text.length);
+
+  //       const strongBold = document.createElement("strong");
+  //       range.surroundContents(strongBold);
+  //     }
+  //   } else {
+  //     console.log("Совпадений не найдено");
+  //   }
+  // };
+
   const handleSelectionInEditorField = () => {
-    const selection = document.getSelection().toString();
-    const selection1 = document.getSelection();
-    console.log(selection1);
-    const start = editor[0].content.indexOf(selection);
-    const end = start + selection.length;
-    return {
-      startBold: start,
-      endBold: end,
-      startNormal: end,
-      endNormal: editor[0].content.length,
-    };
+    const selection = document.getSelection();
+    const anchor = selection.anchorOffset;
+    const focus = selection.focusOffset;
+    const value = selection.anchorNode.nodeValue;
+    return { anchor, focus, value };
   };
 
-  const setBold = () => {
-    const ranges = handleSelectionInEditorField();
-    console.log(ranges);
-    // if (ranges.start === 0 && ranges.end === 0) return;
-    const updateState = editor.map((item) => {
-      if (item.id === 1) {
-        return {
-          ...item,
-          style: [
-            {
-              bold: [...item.style[0].bold],
-            },
-            {
-              normal: [
-                ...item.style[1].normal,
-                { start: ranges.end, end: ranges.length },
-              ],
-            },
-          ],
-        };
+  useEffect(() => {
+    if (ranges.length === 0 && !curRange) {
+      console.log("aboba");
+    } else {
+      const find = ranges.includes(curRange.value);
+      if (find) {
+        setRanges([...ranges.filter((el) => el !== curRange.value)]);
       }
-    });
-    setEditor(updateState);
+      const updateRanges = editor.map((field) => {
+        if (field.id === 1) {
+          return {
+            ...field,
+            style: [...ranges],
+          };
+        }
+      });
+      console.log(updateRanges);
+      setEditor(updateRanges);
+    }
+  }, [ranges, curRange]);
+
+  const setBold = () => {
+    const range = handleSelectionInEditorField();
+    const start = range.value.slice(0, range.anchor);
+    const boldText = range.value.slice(range.anchor, range.focus);
+    const end = range.value.slice(range.focus, range.value.length);
+    const arr = [start, { text: boldText, format: "bold" }, end];
+
+    console.log(range);
+    setCurRange(range);
+    setRanges([...ranges, ...arr]);
   };
 
   return (
@@ -91,6 +104,7 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
       </Box>
 
       <Box
+        className="text-field"
         sx={{ bgcolor: `${colors.grey[100]}` }}
         ref={descRef}
         style={{ width: "570px" }}
@@ -98,7 +112,7 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
         suppressContentEditableWarning={true}
         onSelect={handleSelectionInEditorField}
       >
-        <Field editor={editor} currentField={currentField} />
+        <Field editor={editor} />
       </Box>
     </Box>
   );
