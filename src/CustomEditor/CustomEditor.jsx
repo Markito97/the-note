@@ -10,21 +10,7 @@ import { Count } from "./Count";
 export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const map = new Map();
-  map.set("bold", [
-    { start: 0, end: 3 },
-    { start: 5, end: 8 },
-    { start: 10, end: 13 },
-  ]);
-  map.set("normal", [
-    [
-      { start: 3, end: 5 },
-      { start: 8, end: 10 },
-      { start: 13, end: 14 },
-    ],
-  ]);
   const descRef = createRef();
-  const [selected, setSelected] = useState("");
   const [currentFieldId, setCurrentFieldId] = useState("");
   const [count, setCount] = useState(1);
   const [editor, setEditor] = useState([
@@ -49,6 +35,10 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
     }
   }, [isCurrentPost]);
 
+  useEffect(() => {
+    console.log("Effect");
+  }, []);
+
   const test = (e) => {
     changeDescription(e.target.innerText);
   };
@@ -57,35 +47,33 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
     setCurrentFieldId(id);
   };
 
-  const increment = () => {
-    setCount((prev) => (prev = count + 1));
-  };
-
   const handleSelectionInEditorField = () => {
     const selection = document.getSelection().toString();
-    const string = "this is a text";
-    const findIndexes = (paragraph) => {
-      const start = paragraph.indexOf(selection);
-      const end = start + selection.length;
-      const indexes = {
-        start: null,
-        end: null,
-      };
-
-      indexes.start = start;
-      indexes.end = end;
-
-      return indexes;
+    const start = editor[0].content.indexOf(selection);
+    console.log(start);
+    const end = start + selection.length;
+    const indexes = {
+      start: null,
+      end: null,
     };
 
-    const indexes = findIndexes(string);
+    indexes.start = start;
+    indexes.end = end;
+
+    return indexes;
+  };
+
+  const setBold = () => {
+    const ranges = handleSelectionInEditorField();
+    console.log(ranges);
+    if (ranges.start === 0 && ranges.end === 0) return;
     const updateState = editor.map((item) => {
       if (item.id === 1) {
         return {
           ...item,
           style: [
             {
-              bold: [...item.style[0].bold, indexes],
+              bold: [...item.style[0].bold, ranges],
             },
           ],
         };
@@ -97,7 +85,7 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
   return (
     <Box>
       <Box>
-        <Button>
+        <Button onClick={setBold}>
           <FormatBoldIcon sx={{ color: `${colors.grey[100]}` }} />
         </Button>
       </Box>
@@ -105,14 +93,12 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
       <Box
         sx={{ bgcolor: `${colors.grey[100]}` }}
         ref={descRef}
-        onInput={test}
         style={{ width: "570px" }}
         contentEditable="true"
         suppressContentEditableWarning={true}
         onSelect={handleSelectionInEditorField}
       >
         <Field editor={editor} currentField={currentField} />
-        {/* <Count count={count} /> */}
       </Box>
     </Box>
   );
