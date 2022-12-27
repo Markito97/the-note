@@ -33,11 +33,7 @@ export const Field = ({ editor, currentField }) => {
   return (
     <>
       {editor.map((field) => (
-        <p
-          id={field.id}
-          onMouseDown={() => currentField(field.id)}
-          key={uuidv4()}
-        >
+        <p id={field.id} key={uuidv4()}>
           {res.map((el) => {
             if (typeof el === "object") {
               return <strong key={uuidv4()}>{el.bold}</strong>;

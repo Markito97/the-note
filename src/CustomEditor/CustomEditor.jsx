@@ -62,20 +62,30 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
   };
 
   const handleSelectionInEditorField = () => {
-    const selection = document.getSelection();
+    const selection = document.getSelection().toString();
+    const string = "this is a text";
+    const findIndexes = (paragraph) => {
+      const start = paragraph.indexOf(selection);
+      const end = start + selection.length;
+      const indexes = {
+        start: null,
+        end: null,
+      };
+
+      indexes.start = start;
+      indexes.end = end;
+
+      return indexes;
+    };
+
+    const indexes = findIndexes(string);
     const updateState = editor.map((item) => {
       if (item.id === 1) {
         return {
           ...item,
           style: [
             {
-              bold: [
-                ...item.style[0].bold,
-                {
-                  start: selection.anchorOffset,
-                  end: selection.focusOffset,
-                },
-              ],
+              bold: [...item.style[0].bold, indexes],
             },
           ],
         };
