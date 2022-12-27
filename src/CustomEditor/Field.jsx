@@ -1,3 +1,5 @@
+import { v4 as uuidv4 } from "uuid";
+
 export const Field = ({ editor, currentField }) => {
   const parseString = (string, bold, normal) => {
     const a = bold.map((idx) => {
@@ -15,7 +17,7 @@ export const Field = ({ editor, currentField }) => {
   };
 
   const res = parseString(
-    "test is a text",
+    editor[0].content,
     [
       { start: 0, end: 3 },
       { start: 5, end: 8 },
@@ -28,24 +30,22 @@ export const Field = ({ editor, currentField }) => {
     ]
   );
 
-  console.log(res);
-
   return (
     <>
-      {editor.map((field, index) => (
-        <div
+      {editor.map((field) => (
+        <p
           id={field.id}
           onMouseDown={() => currentField(field.id)}
-          key={index + 1}
+          key={uuidv4()}
         >
           {res.map((el) => {
             if (typeof el === "object") {
-              return <strong>{el.bold}</strong>;
+              return <strong key={uuidv4()}>{el.bold}</strong>;
             } else {
-              return <span>{el}</span>;
+              return <span key={uuidv4()}>{el}</span>;
             }
           })}
-        </div>
+        </p>
       ))}
     </>
   );

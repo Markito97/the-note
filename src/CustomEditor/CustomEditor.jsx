@@ -34,18 +34,10 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
       content: "this is a text",
       style: [
         {
-          bold: [
-            { start: 0, end: 3 },
-            { start: 5, end: 8 },
-            { start: 10, end: 13 },
-          ],
+          bold: [],
         },
         {
-          normal: [
-            { start: 3, end: 5 },
-            { start: 8, end: 10 },
-            { start: 13, end: 14 },
-          ],
+          normal: [],
         },
       ],
     },
@@ -71,23 +63,25 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
 
   const handleSelectionInEditorField = () => {
     const selection = document.getSelection();
-    // const updateState = editor.map((item) => {
-    //   if (item.id === 1) {
-    //     return {
-    //       ...item,
-    //       style: [
-    //         {
-    //           range: [
-    //             ...item.style[0].range,
-    //             { start: selection.anchorOffset, end: selection.focusOffset },
-    //           ],
-    //           format: "bold",
-    //         },
-    //       ],
-    //     };
-    //   }
-    // });
-    // setEditor(updateState);
+    const updateState = editor.map((item) => {
+      if (item.id === 1) {
+        return {
+          ...item,
+          style: [
+            {
+              bold: [
+                ...item.style[0].bold,
+                {
+                  start: selection.anchorOffset,
+                  end: selection.focusOffset,
+                },
+              ],
+            },
+          ],
+        };
+      }
+    });
+    setEditor(updateState);
   };
 
   return (
@@ -98,8 +92,8 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
         </Button>
       </Box>
 
-      <div
-        sx={{ color: `${colors.grey[100]}` }}
+      <Box
+        sx={{ bgcolor: `${colors.grey[100]}` }}
         ref={descRef}
         onInput={test}
         style={{ width: "570px" }}
@@ -109,7 +103,7 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
       >
         <Field editor={editor} currentField={currentField} />
         {/* <Count count={count} /> */}
-      </div>
+      </Box>
     </Box>
   );
 };
