@@ -1,15 +1,17 @@
 import { List } from "@mui/material";
 import { PostListItem } from "./PostListItem";
+import { useContext } from "react";
+import { ContextApp } from "../../store/store";
 
 export const PostList = ({
-  posts,
   handleCurrentPost,
   removePost,
   setFavortitePost,
 }) => {
+  const [state] = useContext(ContextApp);
   return (
     <List>
-      {posts.map((post, index) => (
+      {state.posts.map((post, index) => (
         <PostListItem
           setFavortitePost={setFavortitePost}
           removePost={removePost}

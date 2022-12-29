@@ -1,20 +1,15 @@
 import { useTheme } from "@emotion/react";
 import { Button, Typography } from "@mui/material";
 import { tokens } from "../../assets/themes/theme";
-import { v4 as uuidv4 } from "uuid";
 import AddIcon from "@mui/icons-material/Add";
+import { useContext } from "react";
+import { ContextApp } from "../../store/store";
 
-export const PostCreate = ({ addPost }) => {
+export const PostCreate = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const createNewPost = () => {
-    const newPost = {
-      id: uuidv4(),
-      title: "Title",
-      descritpion: "Description",
-    };
-    addPost(newPost);
-  };
+  const [state, dispatch] = useContext(ContextApp);
+
   return (
     <Button
       sx={{
@@ -27,12 +22,15 @@ export const PostCreate = ({ addPost }) => {
         justifyContent: "flex-start",
         fontSize: 16,
       }}
-      onClick={createNewPost}
+      onClick={() =>
+        dispatch({
+          type: "addPost",
+        })
+      }
       variant="text"
     >
       <AddIcon />
       <Typography sx={{ paddingLeft: 1, fontSize: "inherit" }}>
-        {" "}
         New Post
       </Typography>
     </Button>

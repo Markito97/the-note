@@ -4,9 +4,12 @@ import { Menu, MenuItem, Typography } from "@mui/material";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
 import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
+import { useContext } from "react";
+import { ContextApp } from "../../store/store";
 export const PostListPopupMenu = ({ removePost, setFavortitePost }) => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
+  const [state, dispatch] = useContext(ContextApp);
 
   const handleClick = (event) => {
     setOpen(true);
@@ -22,7 +25,7 @@ export const PostListPopupMenu = ({ removePost, setFavortitePost }) => {
       link: "Delete",
       icon: (
         <DeleteOutlineOutlinedIcon
-          onClick={() => removePost()}
+          onClick={() => dispatch({ type: "removePost" })}
           sx={{ width: 22, height: 22 }}
         />
       ),

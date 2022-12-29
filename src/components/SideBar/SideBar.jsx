@@ -4,16 +4,9 @@ import { FavoritesList } from "../FavoritesList.jsx/FavoritesList";
 import { PostList } from "../PostList/PostList";
 import { tokens } from "../../assets/themes/theme";
 import { PostCreate } from "../PostCreate/PostCreate";
-import { useState } from "react";
+import { FavoritesListPopupMenu } from "../FavoritesList.jsx/FavoritesListPopupMenu";
 
-export const SideBar = ({
-  posts,
-  addPost,
-  handleCurrentPost,
-  removePost,
-  favoritePosts,
-  setFavortitePost,
-}) => {
+export const SideBar = ({}) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   return (
@@ -25,7 +18,7 @@ export const SideBar = ({
       }}
     >
       <Box sx={{ display: "flex", alignItems: "center" }}>
-        <PostCreate addPost={addPost} />
+        <PostCreate />
       </Box>
       <Box sx={{ display: "flex", alignItems: "center" }}>
         <Button
@@ -49,14 +42,9 @@ export const SideBar = ({
         </Button>
       </Box>
       <Typography sx={{ fontSize: 14 }}>Favorites</Typography>
-      <FavoritesList favoritePosts={favoritePosts} />
+      <FavoritesListPopupMenu />
       <Typography sx={{ fontSize: 14 }}>Post List</Typography>
-      <PostList
-        posts={posts}
-        removePost={removePost}
-        setFavortitePost={setFavortitePost}
-        handleCurrentPost={handleCurrentPost}
-      />
+      <PostList />
     </Box>
   );
 };

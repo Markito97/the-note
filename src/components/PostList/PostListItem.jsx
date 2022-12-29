@@ -1,7 +1,8 @@
 import { ListItem, Box } from "@mui/material";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import { PostListPopupMenu } from "./PostListPopupMenu";
-import { Description } from "@mui/icons-material";
+import { useContext } from "react";
+import { ContextApp } from "../../store/store";
 
 const itemStyle = {
   display: "flex",
@@ -12,18 +13,12 @@ const itemStyle = {
   },
 };
 
-export const PostListItem = ({
-  post,
-  handleCurrentPost,
-  removePost,
-  setFavortitePost,
-}) => {
+export const PostListItem = ({ post }) => {
+  const [state, dispatch] = useContext(ContextApp);
   return (
     <Box
+      onClick={() => dispatch({ type: "setId", payload: post.id })}
       sx={itemStyle}
-      onClick={() => {
-        handleCurrentPost(post.id);
-      }}
     >
       <ArticleOutlinedIcon sx={{ width: 24, height: 24 }} />
       <ListItem>
@@ -37,15 +32,12 @@ export const PostListItem = ({
               textAlign: "bo",
             }}
           >
-            {post.title}
-            {post.description}
+            <span>{post.title}</span>
+            <span>{post.description}</span>
           </Box>
         </div>
       </ListItem>
-      <PostListPopupMenu
-        removePost={removePost}
-        setFavortitePost={setFavortitePost}
-      />
+      <PostListPopupMenu />
     </Box>
   );
 };

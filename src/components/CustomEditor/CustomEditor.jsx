@@ -1,7 +1,7 @@
 import { Button, useTheme } from "@mui/material";
 import { Box } from "@mui/system";
 import { createRef, useEffect, useState } from "react";
-import { tokens } from "../assets/themes/theme";
+import { tokens } from "../../assets/themes/theme";
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import { Field } from "./Field";
 import { v4 as uuidv4 } from "uuid";
@@ -45,6 +45,9 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
     );
     console.log(`Начало ${start} Выбранный текст ${selected} Конец ${end}`);
     console.log(selection.commonAncestorContainer.nodeValue);
+    if (start === "" && end === "") {
+      return [{ key: uuidv4(), text: selected, format: "bold" }];
+    }
     return [
       { key: uuidv4(), text: start, format: "normal" },
       { key: uuidv4(), text: selected, format: "bold" },
@@ -86,23 +89,18 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
       updateRanges(parsedString);
     } else {
       const parsedString = parseStirng(selection);
-      // надо вытыкать по старому индексу тогда будет ок - думаю
-      const filtered = editor[0].ranges.filter(
-        (el) => el.key !== currentData[0].key
-      );
+      const filtered = editor[0].ranges.map((range) => {
+        if (range.key === currentData[0].key) {
+          return (range = parsedString);
+        } else {
+          return range;
+        }
+      });
+      // TODO выявить все пограничные случаи когда происходит неправильный рендер
 
-      const newArr = [...filtered, ...parsedString];
-      console.log(newArr);
-      updateRanges(newArr);
-      // console.log(editor[0].ranges);
-      // console.log(currentData);
-      // console.log(parsedString);
+      updateRanges(filtered.flat());
     }
   };
-
-  // this is a text
-
-  // thisa text is
 
   return (
     <Box>
