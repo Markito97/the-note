@@ -4,23 +4,21 @@ import { createRef, useEffect, useState } from "react";
 import { tokens } from "../assets/themes/theme";
 import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import { Field } from "./Field";
+import { v4 as uuidv4 } from "uuid";
 
 export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const descRef = createRef();
-  const [currentFieldId, setCurrentFieldId] = useState("");
-  const [count, setCount] = useState(1);
   const [editor, setEditor] = useState([
     {
       id: 1,
       type: "Paragraph",
       content: "this is a text",
-      style: [],
+      ranges: [],
     },
   ]);
-  const [ranges, setRanges] = useState([]);
-  const [curRange, setCurRange] = useState(null);
+  const [textFieldKey, setTextFieldKey] = useState("");
 
   useEffect(() => {
     if (!isCurrentPost) {
@@ -28,72 +26,83 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
     }
   }, [isCurrentPost]);
 
-  const test = (e) => {
-    changeDescription(e.target.innerText);
+  const handleTextFieldId = (key) => {
+    setTextFieldKey(key);
   };
 
-  const currentField = (id) => {
-    setCurrentFieldId(id);
+  const parseStirng = (selection) => {
+    const start = selection.commonAncestorContainer.nodeValue.slice(
+      0,
+      selection.startOffset
+    );
+    const selected = selection.commonAncestorContainer.nodeValue.slice(
+      selection.startOffset,
+      selection.endOffset
+    );
+    const end = selection.commonAncestorContainer.nodeValue.slice(
+      selection.endOffset,
+      selection.commonAncestorContainer.nodeValue.length
+    );
+    console.log(`Начало ${start} Выбранный текст ${selected} Конец ${end}`);
+    console.log(selection.commonAncestorContainer.nodeValue);
+    return [
+      { key: uuidv4(), text: start, format: "normal" },
+      { key: uuidv4(), text: selected, format: "bold" },
+      { key: uuidv4(), text: end, format: "text" },
+    ];
   };
 
-  // const rangeHighlight = (text) => {
-  //   const root = descRef.current.firstChild;
-  //   const content = root.nodeValue;
-  //   console.log(content);
-  //   if (~content.indexOf(text)) {
-  //     if (document.createRange) {
-  //       const range = new Range();
-  //       range.setStart(root, content.indexOf(text));
-  //       range.setEnd(root, content.indexOf(text) + text.length);
-
-  //       const strongBold = document.createElement("strong");
-  //       range.surroundContents(strongBold);
-  //     }
-  //   } else {
-  //     console.log("Совпадений не найдено");
-  //   }
-  // };
-
-  const handleSelectionInEditorField = () => {
-    const selection = document.getSelection();
-    const anchor = selection.anchorOffset;
-    const focus = selection.focusOffset;
-    const value = selection.anchorNode.nodeValue;
-    return { anchor, focus, value };
+  const handleSelectetion = () => {
+    const selection = window.getSelection().getRangeAt(0);
+    return selection;
   };
 
-  useEffect(() => {
-    if (ranges.length === 0 && !curRange) {
-      console.log("aboba");
-    } else {
-      const find = ranges.includes(curRange.value);
-      if (find) {
-        setRanges([...ranges.filter((el) => el !== curRange.value)]);
-      }
-      const updateRanges = editor.map((field) => {
+  const updateRanges = (ranges) => {
+    setEditor(
+      editor.map((field) => {
         if (field.id === 1) {
           return {
             ...field,
-            style: [...ranges],
+            ranges: [...ranges],
           };
         }
-      });
-      console.log(updateRanges);
-      setEditor(updateRanges);
-    }
-  }, [ranges, curRange]);
+      })
+    );
+  };
+
+  const findCurrentTextField = () => {
+    return editor.map((textField) => {
+      return textField.ranges.filter(
+        (currentText) => currentText.key === textFieldKey
+      );
+    });
+  };
 
   const setBold = () => {
-    const range = handleSelectionInEditorField();
-    const start = range.value.slice(0, range.anchor);
-    const boldText = range.value.slice(range.anchor, range.focus);
-    const end = range.value.slice(range.focus, range.value.length);
-    const arr = [start, { text: boldText, format: "bold" }, end];
+    const selection = handleSelectetion();
+    const parsedString = parseStirng(selection);
+    const [currentData] = findCurrentTextField();
+    if (currentData.length === 0) {
+      updateRanges(parsedString);
+    } else {
+      const parsedString = parseStirng(selection);
+      // надо вытыкать по старому индексу тогда будет ок - думаю
+      const filtered = editor[0].ranges.filter(
+        (el) => el.key !== currentData[0].key
+      );
 
-    console.log(range);
-    setCurRange(range);
-    setRanges([...ranges, ...arr]);
+      const newArr = [...filtered, ...parsedString];
+      console.log(newArr);
+      updateRanges(newArr);
+      // console.log(editor[0].ranges);
+      // console.log(currentData);
+      // console.log(parsedString);
+    }
   };
+
+  // this is a text
+
+  // thisa text is
 
   return (
     <Box>
@@ -110,9 +119,8 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
         style={{ width: "570px" }}
         contentEditable="true"
         suppressContentEditableWarning={true}
-        onSelect={handleSelectionInEditorField}
       >
-        <Field editor={editor} />
+        <Field editor={editor} handleTextFieldId={handleTextFieldId} />
       </Box>
     </Box>
   );
