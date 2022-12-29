@@ -33,6 +33,15 @@ export function postsReducer(state, action) {
         ...state,
         currentPost: action.payload,
       };
+    case "setFavoritePost":
+      const favoritePost = state.posts.find(
+        (post) => post.id === state.currentPost
+      );
+      console.log(favoritePost);
+      return {
+        ...state,
+        favoritePost: [{ ...favoritePost, favorite: true }],
+      };
     default:
       throw new Error();
   }

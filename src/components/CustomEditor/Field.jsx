@@ -12,7 +12,7 @@ export const Field = ({ editor, handleTextFieldId }) => {
                   if (range.format === "bold") {
                     return (
                       <strong
-                        onClick={() => handleTextFieldId(range.key)}
+                        onMouseOver={() => handleTextFieldId(range.key)}
                         key={uuidv4()}
                       >
                         {range.text}
@@ -21,7 +21,7 @@ export const Field = ({ editor, handleTextFieldId }) => {
                   } else {
                     return (
                       <span
-                        onClick={() => handleTextFieldId(range.key)}
+                        onMouseOver={() => handleTextFieldId(range.key)}
                         key={uuidv4()}
                       >
                         {range.text}

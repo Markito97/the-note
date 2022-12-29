@@ -6,7 +6,7 @@ import FormatBoldIcon from "@mui/icons-material/FormatBold";
 import { Field } from "./Field";
 import { v4 as uuidv4 } from "uuid";
 
-export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
+export const CustomEditor = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const descRef = createRef();
@@ -18,13 +18,8 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
       ranges: [],
     },
   ]);
-  const [textFieldKey, setTextFieldKey] = useState("");
 
-  useEffect(() => {
-    if (!isCurrentPost) {
-    } else {
-    }
-  }, [isCurrentPost]);
+  const [textFieldKey, setTextFieldKey] = useState("");
 
   const handleTextFieldId = (key) => {
     setTextFieldKey(key);
@@ -85,6 +80,7 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
     const selection = handleSelectetion();
     const parsedString = parseStirng(selection);
     const [currentData] = findCurrentTextField();
+    console.log(currentData);
     if (currentData.length === 0) {
       updateRanges(parsedString);
     } else {
@@ -97,7 +93,7 @@ export const CustomEditor = ({ isCurrentPost, changeDescription }) => {
         }
       });
       // TODO выявить все пограничные случаи когда происходит неправильный рендер
-
+      console.log(filtered);
       updateRanges(filtered.flat());
     }
   };

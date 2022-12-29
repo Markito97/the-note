@@ -34,7 +34,7 @@ export const PostListPopupMenu = ({ removePost, setFavortitePost }) => {
       link: "Add to Faworites",
       icon: (
         <StarBorderOutlinedIcon
-          onClick={() => setFavortitePost()}
+          onClick={() => dispatch({ type: "setFavoritePost" })}
           sx={{ width: 22, height: 22 }}
         />
       ),

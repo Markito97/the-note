@@ -1,10 +1,8 @@
 import { Search } from "@mui/icons-material";
 import { Box, Button, Typography, useTheme } from "@mui/material";
-import { FavoritesList } from "../FavoritesList.jsx/FavoritesList";
 import { PostList } from "../PostList/PostList";
 import { tokens } from "../../assets/themes/theme";
 import { PostCreate } from "../PostCreate/PostCreate";
-import { FavoritesListPopupMenu } from "../FavoritesList.jsx/FavoritesListPopupMenu";
 
 export const SideBar = ({}) => {
   const theme = useTheme();
@@ -42,7 +40,6 @@ export const SideBar = ({}) => {
         </Button>
       </Box>
       <Typography sx={{ fontSize: 14 }}>Favorites</Typography>
-      <FavoritesListPopupMenu />
       <Typography sx={{ fontSize: 14 }}>Post List</Typography>
       <PostList />
     </Box>
