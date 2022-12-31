@@ -1,10 +1,10 @@
-import { ListItem, Box } from "@mui/material";
+import { ListItem, Box, Typography } from "@mui/material";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import { PostListPopupMenu } from "./PostListPopupMenu";
 import { useContext } from "react";
 import { ContextApp } from "../../store/store";
 
-const itemStyle = {
+const PostListItemStyle = {
   display: "flex",
   alignItems: "center",
   marginTop: 1,
@@ -18,24 +18,29 @@ export const PostListItem = ({ post }) => {
   return (
     <Box
       onClick={() => dispatch({ type: "setId", payload: post.id })}
-      sx={itemStyle}
+      sx={PostListItemStyle}
     >
-      <ArticleOutlinedIcon sx={{ width: 24, height: 24 }} />
+      <ArticleOutlinedIcon />
       <ListItem>
-        <div style={{ width: 194, whiteSpace: "nowrap" }}>
-          <Box
-            component="div"
-            sx={{
-              fontSize: 14,
-              textOverflow: "ellipsis",
-              overflow: "hidden",
-              textAlign: "bo",
-            }}
-          >
-            <span>{post.title}</span>
-            <span>{post.description}</span>
+        <Box
+          sx={{
+            width: 194,
+            whiteSpace: "nowrap",
+          }}
+        >
+          <Box>
+            <Typography
+              sx={{
+                fontSize: 14,
+                textOverflow: "ellipsis",
+                overflow: "hidden",
+                textAlign: "bo",
+              }}
+            >
+              {post.title}
+            </Typography>
           </Box>
-        </div>
+        </Box>
       </ListItem>
       <PostListPopupMenu />
     </Box>

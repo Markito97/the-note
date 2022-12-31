@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from "uuid";
 
-export const Field = ({ editor, handleTextFieldId }) => {
+export const Field = ({ editor, handleTextFieldKey }) => {
   return (
     <>
       {editor.map((field) => {
@@ -12,7 +12,8 @@ export const Field = ({ editor, handleTextFieldId }) => {
                   if (range.format === "bold") {
                     return (
                       <strong
-                        onMouseOver={() => handleTextFieldId(range.key)}
+                        data-text="true"
+                        // onMouseDown={() => handleTextFieldKey(range.key)}
                         key={uuidv4()}
                       >
                         {range.text}
@@ -21,7 +22,8 @@ export const Field = ({ editor, handleTextFieldId }) => {
                   } else {
                     return (
                       <span
-                        onMouseOver={() => handleTextFieldId(range.key)}
+                        data-text="true"
+                        // onMouseDownCapture={() => handleTextFieldKey(range.key)}
                         key={uuidv4()}
                       >
                         {range.text}

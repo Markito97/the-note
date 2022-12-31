@@ -11,35 +11,6 @@ function App() {
   const [state, dispatch] = useReducer(postsReducer, initialState);
   const [theme, colorMode] = useMode();
 
-  // const changePost = (post) => {
-  //   const postForChange = posts.map((item) => {
-  //     if (item.id === postId) {
-  //       return {
-  //         ...item,
-  //         title: post,
-  //       };
-  //     } else {
-  //       return { ...item };
-  //     }
-  //   });
-  //   setPosts([...postForChange]);
-  // };
-
-  // const changeDescription = (description) => {
-  //   const changeDescription = posts.map((post) => {
-  //     if (post.id === postId) {
-  //       return {
-  //         ...post,
-  //         description: description,
-  //       };
-  //     } else {
-  //       return { ...post };
-  //     }
-  //   });
-
-  //   setPosts([...changeDescription]);
-  // };
-
   return (
     <ContextApp.Provider value={[state, dispatch]}>
       <ColorModeContext.Provider value={colorMode}>

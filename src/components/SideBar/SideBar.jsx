@@ -1,16 +1,19 @@
 import { Search } from "@mui/icons-material";
 import { Box, Button, Typography, useTheme } from "@mui/material";
 import { PostList } from "../PostList/PostList";
-import { tokens } from "../../assets/themes/theme";
+import { ColorTokens } from "../../assets/themes/theme";
 import { PostCreate } from "../PostCreate/PostCreate";
+import { useContext } from "react";
+import { ContextApp } from "../../store/store";
 
 export const SideBar = ({}) => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  const colors = ColorTokens(theme.palette.mode);
+  const [state, dispatch] = useContext(ContextApp);
   return (
     <Box
       sx={{
-        p: 2,
+        p: 1,
         bgcolor: `${colors.primary[400]}`,
         color: `${colors.grey[100]}`,
       }}
@@ -31,15 +34,16 @@ export const SideBar = ({}) => {
             justifyContent: "flex-start",
             fontSize: 16,
           }}
-          variant="text"
         >
-          <Search />
+          {/* // Search Form  */}
           <Typography sx={{ paddingLeft: 1, fontSize: "inherit" }}>
             Search
           </Typography>
         </Button>
       </Box>
-      <Typography sx={{ fontSize: 14 }}>Favorites</Typography>
+      {state.favoritePosts.length === 0 ? null : (
+        <Typography sx={{ fontSize: 14 }}>Favorites</Typography>
+      )}
       <Typography sx={{ fontSize: 14 }}>Post List</Typography>
       <PostList />
     </Box>

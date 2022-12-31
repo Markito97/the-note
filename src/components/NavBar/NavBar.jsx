@@ -1,19 +1,27 @@
-import { AppBar, useTheme, IconButton, Typography } from "@mui/material";
+import {
+  AppBar,
+  useTheme,
+  IconButton,
+  Typography,
+  Button,
+  Box,
+} from "@mui/material";
 import { useContext } from "react";
-import { ColorModeContext, tokens } from "../../assets/themes/theme";
+import { ColorModeContext, ColorTokens } from "../../assets/themes/theme";
 import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
+import { AccountCircle } from "@mui/icons-material";
 
 export const NavBar = () => {
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  const colors = ColorTokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
 
   return (
     <AppBar
       position="static"
       sx={{
-        p: 2,
+        p: 1,
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",
@@ -25,13 +33,19 @@ export const NavBar = () => {
       <Typography display="flex" color={colors.grey[100]}>
         React Todo List
       </Typography>
-      <IconButton onClick={colorMode.toggleColorMode}>
-        {theme.palette.mode === "dark" ? (
-          <Brightness7Icon />
-        ) : (
-          <Brightness4Icon />
-        )}
-      </IconButton>
+      <Box>
+        <IconButton onClick={colorMode.toggleColorMode}>
+          {theme.palette.mode === "dark" ? (
+            <Brightness7Icon />
+          ) : (
+            <Brightness4Icon />
+          )}
+        </IconButton>
+        <Button>Sing in</Button>
+        <IconButton>
+          <AccountCircle />
+        </IconButton>
+      </Box>
     </AppBar>
   );
 };
