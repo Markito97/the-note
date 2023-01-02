@@ -4,7 +4,12 @@ export const ContextApp = createContext();
 
 export const initialState = {
   posts: [
-    { id: "1", title: "Aboba1", description: "Mixailovich", favorite: false },
+    {
+      id: "1",
+      title: "Aboba1123123123123123asdacczx",
+      description: "Mixailovich",
+      favorite: false,
+    },
     { id: "2", title: "Aboba2", description: "Mixailovich", favorite: false },
     { id: "3", title: "Aboba3", description: "Mixailovich", favorite: false },
   ],

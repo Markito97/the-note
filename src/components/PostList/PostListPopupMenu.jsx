@@ -22,52 +22,41 @@ export const PostListPopupMenu = ({ removePost, setFavortitePost }) => {
 
   const links = [
     {
-      link: "Delete",
-      icon: (
-        <DeleteOutlineOutlinedIcon
-          onClick={() => dispatch({ type: "removePost" })}
-          sx={{ width: 22, height: 22 }}
-        />
-      ),
-    },
-    {
       link: "Add to Faworites",
       icon: (
         <StarBorderOutlinedIcon
           onClick={() => dispatch({ type: "setFavoritePost" })}
-          sx={{ width: 22, height: 22 }}
         />
       ),
     },
     {
       link: "Duplicate",
-      icon: <ContentCopyOutlinedIcon sx={{ width: 22, height: 22 }} />,
+      icon: <ContentCopyOutlinedIcon />,
+    },
+    {
+      link: "Delete",
+      icon: (
+        <DeleteOutlineOutlinedIcon
+          onClick={() => dispatch({ type: "removePost" })}
+        />
+      ),
     },
   ];
 
   return (
     <>
       <MoreHorizIcon
-        sx={{ width: 24, height: 24 }}
-        id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
         aria-haspopup="true"
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       />
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
+      <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         {links.map((link, index) => (
           <MenuItem
             key={index + 1}
             sx={{
+              width: 220,
               display: "flex",
               justifyContent: "space-between",
               paddingLeft: 1,
@@ -75,9 +64,7 @@ export const PostListPopupMenu = ({ removePost, setFavortitePost }) => {
             }}
           >
             {link.icon}
-            <Typography sx={{ fontSize: 10, paddingLeft: 2 }}>
-              {link.link}
-            </Typography>
+            <Typography>{link.link}</Typography>
           </MenuItem>
         ))}
       </Menu>

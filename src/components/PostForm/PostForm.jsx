@@ -1,13 +1,13 @@
 import { Box, TextField, useTheme } from "@mui/material";
 import { FormControl } from "@mui/material";
 import { useState, useEffect } from "react";
-import { tokens } from "../../assets/themes/theme";
+import { ColorTokens } from "../../assets/themes/theme";
 import { CustomEditor } from "../CustomEditor/CustomEditor";
 
 export const PostForm = ({ isCurrentPost, changePost, changeDescription }) => {
   const [title, setTitle] = useState("");
   const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
+  const colors = ColorTokens(theme.palette.mode);
   useEffect(() => {
     if (!isCurrentPost) {
     } else {
