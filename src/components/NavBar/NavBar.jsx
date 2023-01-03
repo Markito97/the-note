@@ -12,27 +12,29 @@ import Brightness4Icon from "@mui/icons-material/Brightness4";
 import Brightness7Icon from "@mui/icons-material/Brightness7";
 import { AccountCircle } from "@mui/icons-material";
 
+const navBarStyle = {
+  navBar: {
+    position: "static",
+    p: 1,
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    borderBottom: 1,
+  },
+};
+
 export const NavBar = () => {
   const theme = useTheme();
   const colors = ColorTokens(theme.palette.mode);
   const colorMode = useContext(ColorModeContext);
 
+  navBarStyle.navBar.bgcolor = `${colors.primary[400]}`;
+  navBarStyle.navBar.color = `${colors.grey[100]}`;
+
   return (
-    <AppBar
-      position="static"
-      sx={{
-        p: 1,
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        alignItems: "center",
-        bgcolor: `${colors.primary[400]}`,
-        color: "text.primary",
-      }}
-    >
-      <Typography display="flex" color={colors.grey[100]}>
-        React Todo List
-      </Typography>
+    <AppBar sx={navBarStyle.navBar}>
+      <Typography>React Todo List</Typography>
       <Box>
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (
@@ -40,10 +42,6 @@ export const NavBar = () => {
           ) : (
             <Brightness4Icon />
           )}
-        </IconButton>
-        <Button>Sing in</Button>
-        <IconButton>
-          <AccountCircle />
         </IconButton>
       </Box>
     </AppBar>

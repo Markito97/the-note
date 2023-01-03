@@ -1,11 +1,24 @@
-import { Box, TextField, useTheme } from "@mui/material";
+import { Box, TextField, TextareaAutosize, useTheme } from "@mui/material";
 import { FormControl } from "@mui/material";
 import { useState, useEffect } from "react";
 import { ColorTokens } from "../../assets/themes/theme";
-import { CustomEditor } from "../CustomEditor/CustomEditor";
 
-export const PostForm = ({ isCurrentPost, changePost, changeDescription }) => {
+const postFormSyle = {
+  width: "100%",
+  formControl: {
+    display: "flex",
+    alignItems: "center",
+    m: 2,
+  },
+  textField: {
+    width: 570,
+    p: 1,
+  },
+};
+
+export const PostForm = ({ isCurrentPost }) => {
   const [title, setTitle] = useState("");
+  const [postText, setPostText] = useState("");
   const theme = useTheme();
   const colors = ColorTokens(theme.palette.mode);
   useEffect(() => {
@@ -15,23 +28,33 @@ export const PostForm = ({ isCurrentPost, changePost, changeDescription }) => {
     }
   }, [isCurrentPost]);
 
+  postFormSyle.bgcolor = `${colors.primary[500]}`;
+
   return (
-    <Box sx={{ bgcolor: `${colors.primary[500]}`, width: "100%" }}>
-      <FormControl sx={{ display: "flex", alignItems: "center", m: 2 }}>
+    <Box sx={postFormSyle}>
+      <FormControl sx={postFormSyle.formControl}>
         <TextField
           value={title}
           onChange={(e) => {
             setTitle(e.target.value);
-            changePost(e.target.value);
           }}
           variant="standard"
           placeholder="Untitled"
-          sx={{ width: 570, p: 1 }}
+          sx={postFormSyle.textField}
         />
-        <CustomEditor
-          isCurrentPost={isCurrentPost}
-          changeDescription={changeDescription}
-        />
+        <TextField
+          value={postText}
+          onChange={(e) => {
+            setPostText(e.target.value);
+          }}
+          sx={postFormSyle.textField}
+          multiline
+          variant="standard"
+          placeholder="Enter text"
+          InputProps={{
+            disableUnderline: true,
+          }}
+        ></TextField>
       </FormControl>
     </Box>
   );
