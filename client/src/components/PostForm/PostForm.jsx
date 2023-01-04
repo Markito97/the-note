@@ -20,17 +20,19 @@ const postFormSyle = {
 };
 
 export const PostForm = () => {
-  const [post, setPost] = useState({ title: "", description: "" });
   const theme = useTheme();
   const colors = ColorTokens(theme.palette.mode);
+  const [post, setPost] = useState({ title: "", description: "" });
   const { id } = useParams();
   const [state, dispatch] = useContext(ContextApp);
-
+  console.log(id);
   postFormSyle.bgcolor = `${colors.primary[500]}`;
 
   useEffect(() => {
     console.log("Effect");
     const currentPost = state.posts.find((post) => post.id === id);
+
+    console.log(currentPost);
     if (currentPost) {
       setPost({
         ...currentPost,
@@ -38,7 +40,7 @@ export const PostForm = () => {
         description: currentPost.description,
       });
     }
-  }, [id]);
+  }, [id, state]);
 
   const updatePost = (e) => {
     setPost({ ...post, title: e.target.value });

@@ -1,8 +1,7 @@
-import { Body, Controller, Get, Post, Put, Req } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Req, Res } from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './schema/createPost.dto';
 import { Request, Response } from 'express';
-import { Res } from '@nestjs/common/decorators';
 
 @Controller('post')
 export class PostController {
@@ -14,7 +13,12 @@ export class PostController {
   }
 
   @Post('/create')
-  async createPost(@Body() createPostDto: CreatePostDto) {
+  async createPost(
+    @Req() request: Request,
+    @Res() response: Response,
+    @Body() createPostDto: CreatePostDto,
+  ) {
+    response.redirect('http://localhost:3000/welcome');
     return await this.postService.createPost(createPostDto);
   }
 

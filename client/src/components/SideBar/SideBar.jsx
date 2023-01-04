@@ -21,6 +21,7 @@ const newPostBtnStyle = {
       fontSize: 16,
     },
   },
+  fontSize: 14,
 };
 
 export const SideBar = () => {
@@ -34,9 +35,18 @@ export const SideBar = () => {
 
   return (
     <Box sx={newPostBtnStyle.sidebar}>
-      <PostCreate />
       <SeacrhForm />
-      <Typography sx={{ fontSize: 14 }}>Post List</Typography>
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
+        <Typography>Pages</Typography>
+        <PostCreate />
+      </Box>
       <PostList />
     </Box>
   );

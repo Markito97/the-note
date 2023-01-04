@@ -1,9 +1,10 @@
-import { ListItem, Box, Typography } from "@mui/material";
+import { ListItem, Box, Typography, useTheme } from "@mui/material";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import { PostListPopupMenu } from "./PostListPopupMenu";
 import { useContext } from "react";
 import { ContextApp } from "../../store/store";
 import { Routes, Route, Link } from "react-router-dom";
+import { ColorTokens } from "../../assets/themes/theme";
 
 const PostListItemStyle = {
   display: "flex",
@@ -16,10 +17,19 @@ const PostListItemStyle = {
 
 export const PostListItem = ({ post }) => {
   const [state, dispatch] = useContext(ContextApp);
+  const theme = useTheme();
+  const colors = ColorTokens(theme.palette.mode);
   return (
     <Box sx={PostListItemStyle}>
       <ArticleOutlinedIcon />
-      <Link to={`/posts/${post.id}`}>
+      <Link
+        style={{
+          listStyle: "none",
+          textDecoration: "none",
+          color: `${colors.grey[100]}`,
+        }}
+        to={`/posts/${post.id}`}
+      >
         <ListItem>
           <Box
             sx={{
