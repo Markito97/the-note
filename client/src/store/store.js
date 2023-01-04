@@ -9,7 +9,6 @@ export const initialState = {
 export function postsReducer(state, action) {
   switch (action.type) {
     case "addPost":
-      console.log(action.payload);
       return {
         ...state,
         posts: [...state.posts, action.payload],
@@ -20,8 +19,6 @@ export function postsReducer(state, action) {
         posts: [...action.payload],
       };
     case "updatePost":
-      console.log(action.payload);
-
       return {
         ...state,
         posts: [...action.payload],
