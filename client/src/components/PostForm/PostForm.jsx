@@ -1,13 +1,19 @@
-import { Box, TextField, TextareaAutosize, useTheme } from "@mui/material";
+import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
 import { FormControl } from "@mui/material";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect, createRef } from "react";
 import { ColorTokens } from "../../assets/themes/theme";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { EmptyPage } from "./EmptyPage";
+import { getPost, updatePost } from "../../store/action";
+import { useContext } from "react";
 import { ContextApp } from "../../store/store";
-import { updatePost } from "../../store/action";
+import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
+import FormatListBulletedOutlinedIcon from "@mui/icons-material/FormatListBulletedOutlined";
+import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 
 const postFormSyle = {
   width: "100%",
+  overflowY: "scroll",
   formControl: {
     display: "flex",
     alignItems: "center",
@@ -22,62 +28,177 @@ const postFormSyle = {
 export const PostForm = () => {
   const theme = useTheme();
   const colors = ColorTokens(theme.palette.mode);
-  const [post, setPost] = useState({ title: "", description: "" });
   const { id } = useParams();
+  const [isEmptyPage, setIsEmptyPage] = useState(false);
+  const [isTablePage, setIsTablePage] = useState(false);
+  const [isListPage, setIsListPage] = useState(false);
+  const [isHide, setIsHide] = useState(true);
   const [state, dispatch] = useContext(ContextApp);
-  console.log(id);
+  const [isFetch, setIsFetch] = useState(false);
+  const [post, setPost] = useState();
+  const inputRef = createRef();
   postFormSyle.bgcolor = `${colors.primary[500]}`;
 
   useEffect(() => {
-    console.log("Effect");
-    const currentPost = state.posts.find((post) => post.id === id);
-
-    console.log(currentPost);
-    if (currentPost) {
-      setPost({
-        ...currentPost,
-        title: currentPost.title,
-        description: currentPost.description,
+    // Есть два варианта как можно сделать
+    // Можно получать пост запросом либо доставать его и стейта, когда мы получаем пост из стейта,
+    // обновляя его и рефреша страницы получаем рендер со старыми данными
+    getPost(id)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data) {
+          setPost(data);
+          setIsEmptyPage(data.emptyPage);
+          setIsHide(data.hide);
+        }
       });
-    }
-  }, [id, state]);
+    // Нужно добавить в массив зависимостей, скорей всего state и при refresh будет ок
+  }, [id]);
 
-  const updatePost = (e) => {
-    setPost({ ...post, title: e.target.value });
-    const updatedPosts = state.posts.map((post) => {
-      if (post.id === id) {
-        return { ...post, title: e.target.value };
+  const handleUpdatePost = () => {
+    const updatedPost = {
+      ...post,
+      hide: isHide,
+      emptyPage: isEmptyPage,
+      listPage: isListPage,
+      tablePage: isTablePage,
+    };
+    const updatedPosts = state.posts.map((note) => {
+      if (note.id === id) {
+        return {
+          ...updatedPost,
+        };
       } else {
-        return { ...post };
+        return { ...note };
       }
     });
     dispatch({ type: "updatePost", payload: updatedPosts });
+    updatePost(updatedPost);
   };
+
+  useEffect(() => {
+    console.log("Effect");
+    if (inputRef) {
+      inputRef.current.focus();
+      console.log(inputRef);
+    }
+  });
+
+  // Дополнительное состояние решило проблему постоянных запросов
+  useEffect(() => {
+    if (isFetch) {
+      setIsFetch(false);
+      handleUpdatePost();
+    }
+  }, [isFetch]);
 
   return (
     <Box sx={postFormSyle}>
       <FormControl sx={postFormSyle.formControl}>
         <TextField
-          value={post.title}
-          onChange={updatePost}
+          inputRef={inputRef}
           variant="standard"
           placeholder="Untitled"
           sx={postFormSyle.textField}
         />
-        <TextField
-          value={post.description}
-          onChange={(e) => {
-            setPost({ ...post, description: e.target.value });
-          }}
-          sx={postFormSyle.textField}
-          multiline
-          variant="standard"
-          placeholder="Enter text"
-          InputProps={{
-            disableUnderline: true,
-          }}
-        ></TextField>
       </FormControl>
+
+      {isHide && (
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
+          <Box sx={{ width: 570, p: 1 }}>
+            <Typography
+              sx={{
+                fontSize: 18,
+                color: `${colors.grey[100]}`,
+                opacity: "70%",
+                paddingBottom: 2,
+              }}
+            >
+              Press Enter to continue with an empty page, or pick a template
+            </Typography>
+            <Box
+              onClick={() => {
+                setIsEmptyPage(true);
+                setIsHide(false);
+                setIsFetch(true);
+              }}
+              sx={{
+                display: "flex",
+                color: `${colors.grey[100]}`,
+                fontSize: 14,
+                alignItems: "center",
+                "&:hover": {
+                  bgcolor: "#525252",
+                  borderRadius: 1.5,
+                },
+              }}
+            >
+              <ArticleOutlinedIcon
+                sx={{ paddingLeft: 1.5, marginRight: 1.5 }}
+              />
+              <Typography sx={{ fontSize: "inherit" }}>Empty page</Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                color: `${colors.grey[100]}`,
+                fontSize: 14,
+                alignItems: "center",
+                "&:hover": {
+                  bgcolor: "#525252",
+                  borderRadius: 1.5,
+                },
+              }}
+            >
+              <TableChartOutlinedIcon
+                sx={{ paddingLeft: 1.5, marginRight: 1.5 }}
+              />
+              <Typography sx={{ fontSize: "inherit" }}>Table</Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                color: `${colors.grey[100]}`,
+                fontSize: 14,
+                alignItems: "center",
+                "&:hover": {
+                  bgcolor: "#525252",
+                  borderRadius: 1.5,
+                },
+              }}
+            >
+              <FormatListBulletedOutlinedIcon
+                sx={{ paddingLeft: 1.5, marginRight: 1.5 }}
+              />
+              <Typography sx={{ fontSize: "inherit" }}>List</Typography>
+            </Box>
+            <Box
+              sx={{
+                display: "flex",
+                color: `${colors.grey[100]}`,
+                fontSize: 14,
+                alignItems: "center",
+                "&:hover": {
+                  bgcolor: "#525252",
+                  borderRadius: 1.5,
+                },
+              }}
+            >
+              <FormatListBulletedOutlinedIcon
+                sx={{ paddingLeft: 1.5, marginRight: 1.5 }}
+              />
+              <Typography sx={{ fontSize: "inherit" }}>BoardPage</Typography>
+            </Box>
+          </Box>
+        </Box>
+      )}
+      {isEmptyPage ? <EmptyPage /> : null}
     </Box>
   );
 };

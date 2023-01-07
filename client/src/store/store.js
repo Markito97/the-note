@@ -1,4 +1,3 @@
-import { v4 as uuidv4 } from "uuid";
 import { createContext } from "react";
 export const ContextApp = createContext();
 
@@ -22,6 +21,11 @@ export function postsReducer(state, action) {
       return {
         ...state,
         posts: [...action.payload],
+      };
+    case "deletePost":
+      return {
+        ...state,
+        posts: [...state.posts.filter((post) => post.id !== action.payload)],
       };
     default:
       throw new Error();

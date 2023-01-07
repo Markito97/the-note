@@ -18,5 +18,11 @@ li {
 .container {
   display: flex;
   width: 100%;
-  height: calc(100vh - 78px);
+  height: calc(100vh - 63px);
+}
+
+[contenteditable="true"]:empty:before {
+  content: attr(placeholder);
+  pointer-events: none;
+  display: block; /* For Firefox */
 }

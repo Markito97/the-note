@@ -24,9 +24,12 @@ export class PostService {
   }
 
   async updatePost(post: any) {
-    const updatedPost = await this.postModel.findOneAndUpdate(post.id, post, {
+    return await this.postModel.findOneAndUpdate({ _id: post._id }, post, {
       new: true,
     });
-    return updatedPost;
+  }
+
+  async deletePost(id: string) {
+    return await this.postModel.findOneAndDelete({ id: id });
   }
 }

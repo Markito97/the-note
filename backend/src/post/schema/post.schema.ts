@@ -8,12 +8,18 @@ export type PostDocument = HydratedDocument<Post>;
 export class Post {
   @Prop()
   id: string;
-
   @Prop()
   title: string;
-
   @Prop()
   description: string;
+  @Prop()
+  emptyPage: boolean;
+  @Prop()
+  listPage: boolean;
+  @Prop()
+  tablePage: boolean;
+  @Prop()
+  hide: boolean;
 }
 
 export const PostSchema = SchemaFactory.createForClass(Post);

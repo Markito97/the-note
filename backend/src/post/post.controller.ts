@@ -1,4 +1,14 @@
-import { Body, Controller, Get, Post, Put, Req, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Put,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { PostService } from './post.service';
 import { CreatePostDto } from './schema/createPost.dto';
 import { Request, Response } from 'express';
@@ -25,16 +35,23 @@ export class PostController {
   @Get('/:id')
   async getOne(@Req() request: Request) {
     const { id } = request.params;
+    console.log(id);
     return await this.postService.getOne(id);
   }
 
   @Put('/update')
   async updatePost(@Req() request: Request, @Res() response: Response) {
     const post = request.body;
-    if (!post.id) {
+    if (!post._id) {
       response.status(400).json({ message: 'id не указан' });
     }
-    const updatedPost = await this.postService.updatePost(post);
-    return response.json(updatedPost);
+    console.log(post);
+    console.log(1);
+    return await this.postService.updatePost(post);
+  }
+
+  @Delete('/:id')
+  async deletePost(@Param('id') id: string) {
+    return this.postService.deletePost(id);
   }
 }

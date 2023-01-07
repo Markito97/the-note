@@ -1,10 +1,10 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import { PostList } from "../PostList/PostList";
 import { ColorTokens } from "../../assets/themes/theme";
 import { PostCreate } from "../PostCreate/PostCreate";
 import { useContext } from "react";
 import { ContextApp } from "../../store/store";
 import { SeacrhForm } from "../SearchForm/SearchForm";
+import { PostList } from "../PostList/PostList";
 
 const newPostBtnStyle = {
   sidebar: {

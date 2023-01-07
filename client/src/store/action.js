@@ -1,5 +1,11 @@
+export const updatePosts = async () => {
+  return await fetch("http://localhost:3001/post/getAll", {
+    method: "GET",
+  }).then((response) => response.json());
+};
+
 export const createPost = async (payload, dispatch) => {
-  const response = await fetch("http://localhost:3001/post/create", {
+  await fetch("http://localhost:3001/post/create", {
     method: "POST",
     mode: "cors",
     body: JSON.stringify(payload),
@@ -14,7 +20,7 @@ export const createPost = async (payload, dispatch) => {
 };
 
 export const updatePost = async (payload, dispatch) => {
-  const response = await fetch("http://localhost:3001/post/update", {
+  await fetch("http://localhost:3001/post/update", {
     method: "PUT",
     mode: "cors",
     body: JSON.stringify(payload),
@@ -22,18 +28,21 @@ export const updatePost = async (payload, dispatch) => {
       "content-type": "application/json",
     },
   });
-
-  return dispatch({
-    type: "updatePost",
-    payload: payload,
-  });
 };
 
-export const getOne = async (payload, dispatch) => {
-  const response = await fetch(`http://localhost:3001/post/${payload}`, {
+export const getPost = async (payload) => {
+  return await fetch(`http://localhost:3001/post/${payload}`, {
     method: "GET",
     mode: "cors",
   });
+};
 
-  return response;
+export const deletePost = async (payload, dispatch) => {
+  await fetch(`http://localhost:3001/post/${payload}`, {
+    method: "DELETE",
+  });
+  return dispatch({
+    type: "deletePost",
+    payload: payload,
+  });
 };

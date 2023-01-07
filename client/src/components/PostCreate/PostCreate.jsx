@@ -1,8 +1,8 @@
 import { useTheme } from "@emotion/react";
-import { Button, Typography } from "@mui/material";
+import { Button } from "@mui/material";
 import { ColorTokens } from "../../assets/themes/theme";
 import AddIcon from "@mui/icons-material/Add";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ContextApp } from "../../store/store";
 import { v4 as uuidv4 } from "uuid";
 import { createPost } from "../../store/action";
@@ -19,6 +19,10 @@ export const PostCreate = () => {
       id: uuidv4(),
       title: "Title",
       description: "Description",
+      emptyPage: false,
+      listPage: false,
+      tablePage: false,
+      hide: true,
     };
 
     createPost(post, dispatch);
@@ -26,7 +30,11 @@ export const PostCreate = () => {
   };
 
   return (
-    <Button onClick={handleCreatePost} variant="text">
+    <Button
+      sx={{ p: 0, display: "flex", justifyContent: "flex-end" }}
+      onClick={handleCreatePost}
+      variant="text"
+    >
       <AddIcon sx={{ color: `${colors.grey[100]}` }} />
     </Button>
   );
