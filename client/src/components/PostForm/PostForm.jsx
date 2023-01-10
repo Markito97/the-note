@@ -1,4 +1,4 @@
-import { Box, Button, TextField, Typography, useTheme } from "@mui/material";
+import { Box, TextField, Typography, useTheme } from "@mui/material";
 import { FormControl } from "@mui/material";
 import { useState, useEffect, createRef } from "react";
 import { ColorTokens } from "../../assets/themes/theme";
@@ -10,6 +10,7 @@ import { ContextApp } from "../../store/store";
 import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 import FormatListBulletedOutlinedIcon from "@mui/icons-material/FormatListBulletedOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import { Table } from "../Table/Table";
 
 const postFormSyle = {
   width: "100%",
@@ -46,10 +47,12 @@ export const PostForm = () => {
     getPost(id)
       .then((response) => response.json())
       .then((data) => {
+        console.log(data);
         if (data) {
           setPost(data);
           setIsEmptyPage(data.emptyPage);
           setIsHide(data.hide);
+          setIsTablePage(data.tablePage);
         }
       });
     // Нужно добавить в массив зависимостей, скорей всего state и при refresh будет ок
@@ -77,10 +80,8 @@ export const PostForm = () => {
   };
 
   useEffect(() => {
-    console.log("Effect");
     if (inputRef) {
       inputRef.current.focus();
-      console.log(inputRef);
     }
   });
 
@@ -145,6 +146,11 @@ export const PostForm = () => {
               <Typography sx={{ fontSize: "inherit" }}>Empty page</Typography>
             </Box>
             <Box
+              onClick={() => {
+                setIsTablePage(true);
+                setIsHide(false);
+                setIsFetch(true);
+              }}
               sx={{
                 display: "flex",
                 color: `${colors.grey[100]}`,
@@ -199,6 +205,7 @@ export const PostForm = () => {
         </Box>
       )}
       {isEmptyPage ? <EmptyPage /> : null}
+      {isTablePage ? <Table /> : null}
     </Box>
   );
 };

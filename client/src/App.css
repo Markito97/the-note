@@ -26,3 +26,17 @@ li {
   pointer-events: none;
   display: block; /* For Firefox */
 }
+
+table {
+  width: "100%";
+  display: "table";
+  overflow: "auto";
+  border: 1;
+  border-color: "#fff";
+  grid-template-columns:
+    minmax(150px, 3fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr)
+    minmax(150px, 1fr);
+}
