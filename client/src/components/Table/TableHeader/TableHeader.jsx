@@ -1,56 +1,32 @@
-import { Box, useTheme } from "@mui/system";
-import { ColorTokens } from "../../../assets/themes/theme";
+import { Box } from "@mui/system";
 import { TableHeaderCell } from "./TableHeaderCell";
-import { v4 as uuidv4 } from "uuid";
-import AddIcon from "@mui/icons-material/Add";
+import React, { useContext } from "react";
+import { TableContextValue } from "../tableContext";
 
-const tableHeaderStyle = {
-  display: "flex",
-  position: "absolute",
-  height: 32,
-  borderTop: 1,
-  borderBottom: 1,
-  left: 0,
-  right: 0,
-  rowCell: {
-    display: "inline-flex",
-    margin: 0,
+const tableHeaderStyles = {
+  wrapper: {
+    width: "100%",
   },
-  addIconContainer: {
+  headersRows: {
     display: "flex",
-    width: 32,
-    height: "100%",
-    alignItems: "center",
-    justifyContent: "center",
-    cursor: "pointer",
-    userSelect: "none",
-    "&:hover": {
-      backgroundColor: "green",
-    },
-    addIcon: { width: 12 },
+    borderTop: 1,
+    borderColor: "#fff",
   },
 };
 
-export const TableHeader = ({ headerCells, handleCurrentWidth }) => {
-  const theme = useTheme();
-  const colors = ColorTokens(theme.palette.mode);
-
-  tableHeaderStyle.borderColor = `${colors.grey[100]}`;
-  tableHeaderStyle.addIconContainer.addIcon.color = `${colors.grey[100]}`;
-
+export const TableHeader = ({ headers, startResize }) => {
+  const [tableState] = useContext(TableContextValue);
   return (
-    <Box sx={tableHeaderStyle}>
-      <Box sx={tableHeaderStyle.rowCell}>
-        {headerCells.map((cell) => (
+    <Box sx={tableHeaderStyles.wrapper}>
+      <Box sx={tableHeaderStyles.headersRows}>
+        {tableState.header.map((cell, index) => (
           <TableHeaderCell
-            key={uuidv4()}
-            cell={cell}
-            handleCurrentWidth={handleCurrentWidth}
+            key={cell + index}
+            headerCell={cell}
+            index={index}
+            startResize={startResize}
           />
         ))}
-        <Box sx={tableHeaderStyle.addIconContainer}>
-          <AddIcon sx={tableHeaderStyle.addIconContainer.addIcon} />
-        </Box>
       </Box>
     </Box>
   );

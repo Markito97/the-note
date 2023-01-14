@@ -11,6 +11,7 @@ import TableChartOutlinedIcon from "@mui/icons-material/TableChartOutlined";
 import FormatListBulletedOutlinedIcon from "@mui/icons-material/FormatListBulletedOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import { Table } from "../Table/Table";
+import { TablePage } from "../Table/TablePage";
 
 const postFormSyle = {
   width: "100%",
@@ -205,7 +206,7 @@ export const PostForm = () => {
         </Box>
       )}
       {isEmptyPage ? <EmptyPage /> : null}
-      {isTablePage ? <Table /> : null}
+      {isTablePage ? <TablePage /> : null}
     </Box>
   );
 };

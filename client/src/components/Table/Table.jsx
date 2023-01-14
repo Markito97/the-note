@@ -1,182 +1,104 @@
 import { Box } from "@mui/system";
-import { useEffect } from "react";
-import { useCallback } from "react";
-import { createRef, useRef, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { useEffect, useState, useCallback, useContext } from "react";
+import { TableHeader } from "./TableHeader/TableHeader";
+import { TableContent } from "./TableContent/TableContent";
+import { TableContextDispatch, TableContextValue } from "./tableContext";
 
-const tableStyles = {
-  tableField: {},
-  tableHeader: {
+const tableStyle = {
+  container: {
+    display: "flex",
+  },
+  tableContainer: {
     width: "100%",
-    color: "#fff",
-    fontSize: 14,
-    headerRow: {
-      borderBottom: 1,
-      borderTop: 1,
-      borderColor: "#fff",
-      display: "flex",
-      headerCell: {
-        position: "relative",
-        borderRight: 1,
-        borderColor: "#fff",
-        padding: "5px",
-        selection: {
-          position: "absolute",
-          right: 0,
-          width: 0,
-          top: 0,
-          flexGrow: 0,
-          zIndex: 1,
-          colResize: {
-            width: 3,
-            marginLeft: "-2px",
-            marginTop: "-1px",
-            height: 27,
-            cursor: "col-resize",
-            "&:hover": {
-              bgcolor: "#fff",
-            },
-          },
-        },
-      },
-    },
+    paddingLeft: "96px",
+    paddingRight: "96px",
+    paddingBottom: "180px",
+    display: "flex",
+    flexDirection: "column",
+    position: "relative",
   },
-  tableBody: {
-    bodyRow: {},
-  },
-};
-
-const createHeaders = (headers) => {
-  return headers.map((item) => ({
-    width: 100,
-    text: item,
-    // ref: useRef(),
-  }));
 };
 
 export const Table = () => {
-  const [tableHeaders, setTableHeaders] = useState([
-    { text: "Items", width: 100 },
-    { text: "Order", width: 100 },
-    { text: "Amount", width: 100 },
-    { text: "Status", width: 100 },
-    { text: "Status", width: 100 },
-    { text: "Delivery Driver", width: 100 },
-  ]);
-  const [activeIndex, setActiveIndex] = useState(null);
+  const [tableState] = useContext(TableContextValue);
+  const [tableDispatch] = useContext(TableContextDispatch);
 
-  useEffect(() => {
-    const res = tableHeaders.map((item) => ({
-      ...item,
-      ref: createRef(),
-    }));
-    setTableHeaders([...res]);
-    console.log(res);
-  }, []);
+  const [currentHeader, setCurrentHeader] = useState();
+  const [activeResize, setActiveResize] = useState(false);
+  const [startWidth, setStartWidth] = useState();
 
-  const mouseDown = (index) => {
-    setActiveIndex(index);
+  const startResize = (event, index) => {
+    setStartWidth(event.clientX);
+    setActiveResize(true);
+    setCurrentHeader(index);
   };
 
-  const mouseMove = useCallback(
+  const handleResizeColumn = useCallback(
     (event) => {
-      const cellWidth = tableHeaders.map((cell, index) => {
-        if (index === activeIndex) {
-          const curWidth = event.clientX - cell.ref.current.offsetLeft;
-          console.log(curWidth);
-          return {
-            ...cell,
-            width: curWidth,
-          };
-        } else {
-          return {
-            ...cell,
-          };
-        }
-      });
-      setTableHeaders(cellWidth);
+      if (activeResize) {
+        tableDispatch({
+          type: "updateHeaders",
+          payload: handleUpdateWidth(event, tableState.header),
+        });
+        tableDispatch({
+          type: "updateContent",
+          payload: handleUpdateContentWidth(event, tableState.content),
+        });
+      }
     },
-    [activeIndex]
+    [activeResize]
   );
 
-  const removeListeners = useCallback(() => {
-    window.removeEventListener("mousemove", mouseMove);
-    window.removeEventListener("mouseup", mouseUp);
+  const handleUpdateWidth = (event, header) => {
+    return header.map((headerCell, index) =>
+      index === currentHeader
+        ? handleCurrentCellWidth(event, headerCell)
+        : { ...headerCell }
+    );
+  };
+
+  const handleCurrentCellWidth = (event, cell) => {
+    const currentWidth = event.clientX - startWidth;
+    const newWdith = cell.width + currentWidth;
+    return {
+      ...cell,
+      width: newWdith,
+    };
+  };
+
+  const handleUpdateContentWidth = (event, content) => {
+    return content.map((contentColumn, index) =>
+      index === currentHeader
+        ? contentColumn.map((cell) => handleCurrentCellWidth(event, cell))
+        : [...contentColumn]
+    );
+  };
+
+  const removeListeners = () => {
+    window.removeEventListener("mousemove", handleResizeColumn);
+    window.removeEventListener("mouseup", stopResize);
+  };
+
+  const stopResize = useCallback(() => {
+    setActiveResize(false);
+    removeListeners();
   });
 
-  const mouseUp = useCallback(() => {
-    setActiveIndex(null);
-    removeListeners();
-  }, [setActiveIndex, removeListeners]);
-
   useEffect(() => {
-    if (activeIndex !== null) {
-      window.addEventListener("mousemove", mouseMove);
-      window.addEventListener("mouseup", mouseUp);
+    if (activeResize) {
+      window.addEventListener("mousemove", handleResizeColumn);
+      window.addEventListener("mouseup", stopResize);
     }
     return () => {
       removeListeners();
     };
-  }, [activeIndex, mouseMove, mouseUp, removeListeners]);
+  }, [activeResize, handleResizeColumn, stopResize, removeListeners]);
 
   return (
-    <Box
-      sx={{
-        flexGrow: 1,
-        flexShrink: 0,
-        display: "flex",
-        flexDirection: "column",
-        position: "relative",
-      }}
-    >
-      <Box
-        sx={{
-          // position: "relative",
-          // minWidth: "100%",
-          paddingLeft: "96px",
-          paddingRight: "96px",
-        }}
-      >
-        <Box sx={tableStyles.tableWrapper}>
-          <Box sx={tableStyles.tableField}>
-            <Box sx={tableStyles.tableHeader}>
-              <Box sx={tableStyles.tableHeader.headerRow}>
-                {tableHeaders.map((item, index) => (
-                  <Box
-                    ref={item.ref}
-                    sx={{
-                      width: item.width,
-                      height: 28,
-                      position: "relative",
-                      borderRight: 1,
-                      borderColor: "#fff",
-                      padding: "5px",
-                    }}
-                    key={uuidv4()}
-                  >
-                    <Box>{item.text}</Box>
-                    <Box
-                      sx={
-                        tableStyles.tableHeader.headerRow.headerCell.selection
-                      }
-                    >
-                      <Box
-                        onMouseDown={() => mouseDown(index)}
-                        sx={
-                          tableStyles.tableHeader.headerRow.headerCell.selection
-                            .colResize
-                        }
-                      ></Box>
-                    </Box>
-                  </Box>
-                ))}
-              </Box>
-            </Box>
-            <Box sx={tableStyles.tableBody}>
-              <Box sx={tableStyles.tableBody.bodyRow}></Box>
-            </Box>
-          </Box>
-        </Box>
+    <Box sx={tableStyle.container}>
+      <Box sx={tableStyle.tableContainer}>
+        <TableHeader startResize={startResize} />
+        <TableContent />
       </Box>
     </Box>
   );
