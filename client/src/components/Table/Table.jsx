@@ -2,6 +2,7 @@ import { Box } from "@mui/system";
 import { useEffect, useState, useCallback, useContext } from "react";
 import { TableHeader } from "./TableHeader/TableHeader";
 import { TableContent } from "./TableContent/TableContent";
+import { TableFooter } from "./TableFooter/TableFooter";
 import { TableContextDispatch, TableContextValue } from "./tableContext";
 
 const tableStyle = {
@@ -67,10 +68,12 @@ export const Table = () => {
   };
 
   const handleUpdateContentWidth = (event, content) => {
-    return content.map((contentColumn, index) =>
-      index === currentHeader
-        ? contentColumn.map((cell) => handleCurrentCellWidth(event, cell))
-        : [...contentColumn]
+    return content.map((contentRow, index) =>
+      contentRow.map((cell) =>
+        index === currentHeader
+          ? handleCurrentCellWidth(event, cell)
+          : { ...cell }
+      )
     );
   };
 
@@ -99,6 +102,7 @@ export const Table = () => {
       <Box sx={tableStyle.tableContainer}>
         <TableHeader startResize={startResize} />
         <TableContent />
+        <TableFooter />
       </Box>
     </Box>
   );
