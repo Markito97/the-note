@@ -1,25 +1,13 @@
-import { Box, tableBodyClasses, useTheme } from "@mui/material";
-import { ColorTokens } from "../../../assets/themes/theme";
+import { Box, useTheme } from "@mui/material";
+import { ColorTokens } from "../../../../assets/themes/theme";
 import { useRef } from "react";
-import NotesIcon from "@mui/icons-material/Notes";
-import TagIcon from "@mui/icons-material/Tag";
-import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
-import { useContext } from "react";
-import { TableContextDispatch, TableContextValue } from "../tableContext";
 import { v4 as uuidv4 } from "uuid";
-import { useOutside } from "../../../hooks/useOutside";
-import { useState } from "react";
-
-const rightBarProp = [
-  {
-    icon: <NotesIcon sx={{ width: 16, height: 16 }} />,
-    text: "Text",
-  },
-  {
-    icon: <TagIcon sx={{ width: 16, height: 16 }} />,
-    text: "Number",
-  },
-];
+import { useContext } from "react";
+import { TableContextDispatch, TableContextValue } from "../../tableContext";
+import { useOutside } from "../../../../hooks/useOutside";
+import { RightBarHeader } from "./RightBarHeader";
+import { RightBarClose } from "./RightBarClose";
+import { RightBarMenuList } from "./RightBarMenuList";
 
 const tableRightBarStyle = {
   container: {
@@ -42,18 +30,7 @@ const tableRightBarStyle = {
     padding: "14px 16px 6px",
     height: "42px",
   },
-  headerTitle: {
-    fontFamily: "sans-serif",
-    fontWeight: 600,
-    fontSize: 14,
-    overflow: "hidden",
-    whiteSpace: "nowrap",
-    textOverflow: "ellipsis",
-  },
-  headerIconClose: {
-    display: "flex",
-    alignItems: "center",
-  },
+
   headerMenu: {
     paddingLeft: "14px",
     paddingRight: "14px",
@@ -121,7 +98,7 @@ export const TableRightBar = ({ active, handleClose }) => {
   const addContentCell = () => {
     const curLength = tableState.content.reduce((acc, cur) => cur.length);
     const column = fillNewColumn(curLength);
-    tableDispatch({ type: "addColumn", payload: column });
+    // tableDispatch({ type: "addColumn", payload: column });
   };
 
   const addColumn = (type) => {
@@ -134,15 +111,8 @@ export const TableRightBar = ({ active, handleClose }) => {
   return (
     <Box ref={tableBarRef} sx={tableRightBarStyle.container}>
       <Box sx={tableRightBarStyle.header}>
-        <Box>
-          <Box component="span" sx={tableRightBarStyle.headerTitle}>
-            New property
-          </Box>
-        </Box>
-
-        <Box sx={tableBodyClasses.xheaderIconClose}>
-          <HighlightOffOutlinedIcon sx={{ width: 14, height: 14 }} />
-        </Box>
+        <RightBarHeader />
+        <RightBarClose />
       </Box>
       <Box
         sx={{
@@ -152,17 +122,7 @@ export const TableRightBar = ({ active, handleClose }) => {
       >
         <Box component="span">Type</Box>
       </Box>
-      {rightBarProp.map((item) => (
-        <Box sx={tableRightBarStyle.headerMenu} key={uuidv4()}>
-          <Box
-            sx={tableRightBarStyle.headerMenuItem}
-            onClick={() => addColumn(item.text)}
-          >
-            <Box>{item.icon}</Box>
-            <Box>{item.text}</Box>
-          </Box>
-        </Box>
-      ))}
+      <RightBarMenuList />
     </Box>
   );
 };

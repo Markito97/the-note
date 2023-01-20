@@ -1,9 +1,9 @@
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
-import { TableRightBar } from "./TableRightBar";
+import { TableRightBar } from "./RightBar";
 import { Box } from "@mui/material";
 
-export const AddHeaderColumn = () => {
+export const AddColumn = () => {
   const [isShowRightBar, setIsShowRightBar] = useState(false);
 
   const handleClose = () => {

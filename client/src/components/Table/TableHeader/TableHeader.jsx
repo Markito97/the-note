@@ -1,8 +1,9 @@
 import { Box } from "@mui/system";
-import { TableHeaderCell } from "./TableHeaderCell";
 import React, { useContext } from "react";
 import { TableContextValue } from "../tableContext";
-import { AddHeaderColumn } from "./AddHeadeColumn";
+import { AddColumn } from "./HeaderMenuBar/AddColumn";
+import { TableHeaderCell } from "./TableHeaderCell";
+
 const tableHeaderStyles = {
   wrapper: {
     width: "100%",
@@ -29,7 +30,7 @@ export const TableHeader = ({ startResize }) => {
           />
         ))}
         <Box>
-          <AddHeaderColumn />
+          <AddColumn />
         </Box>
       </Box>
     </Box>

@@ -1,7 +1,7 @@
-import { Menu, Box, MenuItem, Typography } from "@mui/material";
-import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
-import ArrowDownwardOutlinedIcon from "@mui/icons-material/ArrowDownwardOutlined";
-import { HeaderCellMenuItem } from "./HeaderCellMenuItem";
+import { Menu, Box } from "@mui/material";
+// import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
+// import ArrowDownwardOutlinedIcon from "@mui/icons-material/ArrowDownwardOutlined";
+import { HeaderCellMenuItem } from "./HeaderToolbarItem";
 
 const menuItemProperty = [
   {
@@ -32,7 +32,7 @@ const menuItemProperty = [
   },
 ];
 
-export const HeaderCellMenu = ({ active, handleClose, anchorEl }) => {
+export const HeaderToolbar = ({ active, handleClose, anchorEl }) => {
   return (
     <Menu
       sx={{

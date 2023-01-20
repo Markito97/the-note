@@ -1,39 +1,31 @@
-import { Box } from "@mui/material";
+import { Box, Tab } from "@mui/material";
 import { useContext } from "react";
 import { TableContextValue } from "../tableContext";
 import { TableContentCell } from "./TableContentCell";
+import { useEffect } from "react";
 
-const tableContentStyle = {
-  wrapper: {
-    display: "flex",
-  },
-  content: {
-    display: "flex",
-  },
-};
+const tableContentStyle = {};
 
 export const TableContent = () => {
   const [tableState] = useContext(TableContextValue);
 
+  const cells = tableState.content.map((column) => column.cells);
+  const rows = cells.map((column) => {
+    return column;
+  });
+  const tableRows = rows[0].map((el, index) => rows.map((row) => row[index]));
+
   return (
-    <Box sx={tableContentStyle.wrapper}>
-      <Box sx={tableContentStyle.content}>
-        {tableState.content.map((column, index) => (
-          <Box
-            key={index + 1}
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              borderTop: 1,
-              borderColor: "#fff",
-            }}
-          >
-            {column.map((cell) => (
-              <TableContentCell key={cell.id} cell={cell} />
-            ))}
+    <Box>
+      {tableRows.map((row) => {
+        return (
+          <Box sx={{ display: "flex", borderTop: 1, borderColor: "#fff" }}>
+            {row.map((cell) => {
+              return <TableContentCell cell={cell} />;
+            })}
           </Box>
-        ))}
-      </Box>
+        );
+      })}
     </Box>
   );
 };

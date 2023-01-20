@@ -68,13 +68,16 @@ export const Table = () => {
   };
 
   const handleUpdateContentWidth = (event, content) => {
-    return content.map((contentRow, index) =>
-      contentRow.map((cell) =>
-        index === currentHeader
-          ? handleCurrentCellWidth(event, cell)
-          : { ...cell }
-      )
-    );
+    return content.map((column, index) => {
+      if (index === currentHeader) {
+        const updateWidth = column.cells.map((cell) =>
+          handleCurrentCellWidth(event, cell)
+        );
+        return { ...column, cells: updateWidth };
+      } else {
+        return { ...column };
+      }
+    });
   };
 
   const removeListeners = () => {

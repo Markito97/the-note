@@ -1,41 +1,63 @@
 export const initialTable = {
   header: [
     {
-      id: "1",
+      id: 1,
       text: "first",
       width: 200,
     },
     {
-      id: "2",
+      id: 2,
       text: "second",
       width: 200,
     },
   ],
   content: [
-    [
-      {
-        id: "4",
-        text: "1",
-        width: 200,
-      },
-      {
-        id: "5",
-        text: "2",
-        width: 200,
-      },
-    ],
-    [
-      {
-        id: "7",
-        text: "4",
-        width: 200,
-      },
-      {
-        id: "8",
-        text: "5",
-        width: 200,
-      },
-    ],
+    {
+      id: 1,
+      cells: [
+        {
+          type: "text",
+          id: "4",
+          text: "1",
+          width: 200,
+        },
+        {
+          type: "text",
+          id: "5",
+          text: "2",
+          width: 200,
+        },
+        {
+          type: "text",
+          id: "8",
+          text: "5",
+          width: 200,
+        },
+      ],
+    },
+    {
+      id: 2,
+      cells: [
+        {
+          type: "text",
+          id: "7",
+          text: "4",
+          width: 200,
+        },
+        {
+          type: "text",
+          id: "8",
+          text: "5",
+          width: 200,
+        },
+        {
+          type: "text",
+          id: "8",
+          text: "5",
+          width: 200,
+        },
+      ],
+    },
   ],
   footer: [],
 };

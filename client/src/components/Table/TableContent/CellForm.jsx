@@ -16,7 +16,7 @@ export const CellForm = ({ active, value, id, hanldeClose }) => {
 
   const handleUpdateCellValue = (value) => {
     const newCellValue = tableState.content.map((contentRow) => {
-      return contentRow.map((cell) => {
+      return contentRow.cells.map((cell) => {
         if (cell.id === id) {
           return {
             ...cell,
