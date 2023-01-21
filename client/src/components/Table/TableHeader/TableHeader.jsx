@@ -7,9 +7,10 @@ import { TableHeaderCell } from "./TableHeaderCell";
 const tableHeaderStyles = {
   wrapper: {
     width: "100%",
-    height: 32,
+    height: "32px",
   },
   headersRows: {
+    height: "32px",
     display: "flex",
     borderTop: 1,
     borderColor: "#fff",
@@ -29,7 +30,7 @@ export const TableHeader = ({ startResize }) => {
             startResize={startResize}
           />
         ))}
-        <Box>
+        <Box sx={{ display: "flex" }}>
           <OpenMenu />
         </Box>
       </Box>

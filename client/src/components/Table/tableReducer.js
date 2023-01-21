@@ -1,54 +1,46 @@
-export const initialTable = {
+import { v4 as uuidv4 } from "uuid";
+
+export const mockdata = {
   header: [
     {
-      id: 1,
       text: "first",
       width: 200,
     },
     {
-      id: 2,
       text: "second",
       width: 200,
     },
   ],
   content: [
     {
-      id: 1,
       type: "text",
       cells: [
         {
-          id: "4",
           text: 1,
           width: 200,
         },
         {
-          id: "5",
           text: 2,
           width: 200,
         },
         {
-          id: "8",
           text: 5,
           width: 200,
         },
       ],
     },
     {
-      id: 2,
       type: "text",
       cells: [
         {
-          id: "7",
           text: "4",
           width: 200,
         },
         {
-          id: "8",
           text: "5",
           width: 200,
         },
         {
-          id: "8",
           text: "5",
           width: 200,
         },
@@ -57,6 +49,25 @@ export const initialTable = {
   ],
   footer: [],
 };
+
+const assingIds = (mockdata) => {
+  const header = mockdata.header.map((item) => ({ ...item, id: uuidv4() }));
+  const content = mockdata.content.map((item) => ({ ...item, id: uuidv4() }));
+  const contentColumns = content.map((column) => {
+    const cells = column.cells.map((cell) => ({ ...cell, id: uuidv4() }));
+    return {
+      ...column,
+      cells: cells,
+    };
+  });
+
+  return {
+    header: header,
+    content: contentColumns,
+  };
+};
+
+export const initialTable = assingIds(mockdata);
 
 export function tableReducer(state, action) {
   switch (action.type) {

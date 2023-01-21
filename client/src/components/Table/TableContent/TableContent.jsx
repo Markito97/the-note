@@ -23,13 +23,15 @@ export const TableContent = () => {
   const cells = getCells(tableState.content);
   const rows = convertToRow(cells);
   const tableRows = rotateTableRows(rows);
-
   return (
     <Box>
-      {tableRows.map((row) => (
-        <Box sx={{ display: "flex", borderTop: 1, borderColor: "#fff" }}>
+      {tableRows.map((row, index) => (
+        <Box
+          key={index + 1}
+          sx={{ display: "flex", borderTop: 1, borderColor: "#fff" }}
+        >
           {row.map((cell) => (
-            <TableContentCell cell={cell} />
+            <TableContentCell key={cell.id} cell={cell} />
           ))}
         </Box>
       ))}

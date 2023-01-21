@@ -16,7 +16,7 @@ const rightBarProp = [
 
 export const MenuOptions = ({ addColumn }) => {
   return (
-    <Box>
+    <Box sx={{ paddingTop: "12px" }}>
       {rightBarProp.map((item, index) => (
         <MenuItem addColumn={addColumn} key={index + 1} item={item} />
       ))}

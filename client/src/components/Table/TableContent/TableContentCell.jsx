@@ -20,36 +20,35 @@ const tableContentCellStyle = {
 };
 
 export const TableContentCell = ({ cell }) => {
-  // const [isOpen, setIsOpen] = useState(false);
-  // const cellRef = createRef();
-  // const handleOpen = () => {
-  //   setIsOpen(true);
-  // };
+  const [isOpen, setIsOpen] = useState(false);
+  const cellRef = createRef();
+  const handleOpen = () => {
+    setIsOpen(true);
+  };
 
-  // const hanldeClose = (close) => {
-  //   setIsOpen(close);
-  // };
+  const hanldeClose = (close) => {
+    setIsOpen(close);
+  };
 
-  // useEffect(() => {
-  //   if (isOpen) {
-  //     cellRef.current.style.outline = "2px solid #fff";
-  //     cellRef.current.style.borderRadius = "1px";
-  //   } else {
-  //     cellRef.current.style.outline = "none";
-  //   }
-  // }, [isOpen, cellRef]);
+  useEffect(() => {
+    if (isOpen) {
+      cellRef.current.style.outline = "2px solid #fff";
+      cellRef.current.style.borderRadius = "1px";
+    } else {
+      cellRef.current.style.outline = "none";
+    }
+  }, [isOpen, cellRef]);
 
   return (
-    <Box sx={tableContentCellStyle}>
-      <Box style={{ width: cell.width }}>{cell.text}</Box>
-      {/* <Box style={{ width: cell.width }}>
+    <Box ref={cellRef} onClick={handleOpen} sx={tableContentCellStyle}>
+      <Box style={{ width: cell.width }}>
         <CellForm
           active={isOpen}
           value={cell.text}
           id={cell.id}
           hanldeClose={hanldeClose}
         />
-      </Box> */}
+      </Box>
     </Box>
   );
 };

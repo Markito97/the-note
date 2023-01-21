@@ -78,6 +78,7 @@ export const TableRightBar = ({ active, handleClose }) => {
       type: "updateHeaders",
       payload: [...tableState.header, headerCell],
     });
+    return headerCell;
   };
 
   const fillNewColumn = (len) => {
@@ -95,7 +96,7 @@ export const TableRightBar = ({ active, handleClose }) => {
     return newColumn;
   };
 
-  const addContentCell = () => {
+  const addContentCell = (headerId) => {
     const [currentLength] = tableState.content.map(
       (column) => column.cells.length
     );
@@ -104,7 +105,7 @@ export const TableRightBar = ({ active, handleClose }) => {
     tableDispatch({
       type: "addColumn",
       payload: {
-        id: uuidv4(),
+        id: headerId,
         type: "text",
         cells: column,
       },
@@ -113,8 +114,9 @@ export const TableRightBar = ({ active, handleClose }) => {
 
   const addColumn = (type) => {
     const property = validtateTypeColumn(type);
-    addHeaderCell(property);
-    addContentCell();
+    const headerCell = addHeaderCell(property);
+    console.log(headerCell);
+    addContentCell(headerCell.id);
   };
 
   if (!active) return null;
