@@ -14,44 +14,40 @@ export const initialTable = {
   content: [
     {
       id: 1,
+      type: "text",
       cells: [
         {
-          type: "text",
           id: "4",
-          text: "1",
+          text: 1,
           width: 200,
         },
         {
-          type: "text",
           id: "5",
-          text: "2",
+          text: 2,
           width: 200,
         },
         {
-          type: "text",
           id: "8",
-          text: "5",
+          text: 5,
           width: 200,
         },
       ],
     },
     {
       id: 2,
+      type: "text",
       cells: [
         {
-          type: "text",
           id: "7",
           text: "4",
           width: 200,
         },
         {
-          type: "text",
           id: "8",
           text: "5",
           width: 200,
         },
         {
-          type: "text",
           id: "8",
           text: "5",
           width: 200,

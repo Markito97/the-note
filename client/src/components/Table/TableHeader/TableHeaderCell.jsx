@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Box } from "@mui/system";
 import { CellColResize } from "./CellColResize";
-import { HeaderToolbar } from "./HeaderToolbar/HeaderToolbar";
+import { Dropdown } from "./Dropdown/Dropdown";
 import { useContext } from "react";
 import { TableContextValue } from "../tableContext";
 
@@ -26,6 +26,7 @@ export const TableHeaderCell = ({ headerCell, index, startResize }) => {
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [tableState] = useContext(TableContextValue);
+  const [currentColumn, setCurrentColumn] = useState();
 
   const handleClick = (event) => {
     setOpen(true);
@@ -41,6 +42,8 @@ export const TableHeaderCell = ({ headerCell, index, startResize }) => {
   const handleId = (id) => {
     const currentId = id;
     const foundElement = tableState.content.find((el) => el.id == currentId);
+    setCurrentColumn(foundElement);
+    console.log(foundElement);
   };
 
   return (
@@ -53,10 +56,11 @@ export const TableHeaderCell = ({ headerCell, index, startResize }) => {
         </Box>
         <CellColResize startResize={startResize} index={index} />
       </Box>
-      <HeaderToolbar
+      <Dropdown
         active={open}
         handleClose={handleClose}
         anchorEl={anchorEl}
+        currentColumn={currentColumn}
       />
     </>
   );

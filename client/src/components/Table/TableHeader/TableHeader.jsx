@@ -1,7 +1,7 @@
 import { Box } from "@mui/system";
 import React, { useContext } from "react";
 import { TableContextValue } from "../tableContext";
-import { AddColumn } from "./HeaderMenuBar/AddColumn";
+import { AddColumn, OpenMenu } from "./HeaderMenuBar/OpenMenu";
 import { TableHeaderCell } from "./TableHeaderCell";
 
 const tableHeaderStyles = {
@@ -30,7 +30,7 @@ export const TableHeader = ({ startResize }) => {
           />
         ))}
         <Box>
-          <AddColumn />
+          <OpenMenu />
         </Box>
       </Box>
     </Box>

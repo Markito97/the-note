@@ -14,11 +14,11 @@ const rightBarProp = [
   },
 ];
 
-export const RightBarMenuList = () => {
+export const MenuOptions = ({ addColumn }) => {
   return (
     <Box>
       {rightBarProp.map((item, index) => (
-        <MenuItem key={index + 1} item={item} />
+        <MenuItem addColumn={addColumn} key={index + 1} item={item} />
       ))}
     </Box>
   );

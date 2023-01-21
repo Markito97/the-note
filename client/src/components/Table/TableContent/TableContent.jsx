@@ -6,26 +6,33 @@ import { useEffect } from "react";
 
 const tableContentStyle = {};
 
+const getCells = (state) => {
+  return state.map((column) => column.cells);
+};
+const convertToRow = (array) => {
+  return array.map((column) => column);
+};
+
+const rotateTableRows = (rows) => {
+  return rows[0].map((el, index) => rows.map((row) => row[index]));
+};
+
 export const TableContent = () => {
   const [tableState] = useContext(TableContextValue);
 
-  const cells = tableState.content.map((column) => column.cells);
-  const rows = cells.map((column) => {
-    return column;
-  });
-  const tableRows = rows[0].map((el, index) => rows.map((row) => row[index]));
+  const cells = getCells(tableState.content);
+  const rows = convertToRow(cells);
+  const tableRows = rotateTableRows(rows);
 
   return (
     <Box>
-      {tableRows.map((row) => {
-        return (
-          <Box sx={{ display: "flex", borderTop: 1, borderColor: "#fff" }}>
-            {row.map((cell) => {
-              return <TableContentCell cell={cell} />;
-            })}
-          </Box>
-        );
-      })}
+      {tableRows.map((row) => (
+        <Box sx={{ display: "flex", borderTop: 1, borderColor: "#fff" }}>
+          {row.map((cell) => (
+            <TableContentCell cell={cell} />
+          ))}
+        </Box>
+      ))}
     </Box>
   );
 };

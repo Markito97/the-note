@@ -7,7 +7,7 @@ import { TableContextDispatch, TableContextValue } from "../../tableContext";
 import { useOutside } from "../../../../hooks/useOutside";
 import { RightBarHeader } from "./RightBarHeader";
 import { RightBarClose } from "./RightBarClose";
-import { RightBarMenuList } from "./RightBarMenuList";
+import { MenuOptions, RightBarMenuList } from "./MenuOptions";
 
 const tableRightBarStyle = {
   container: {
@@ -96,9 +96,19 @@ export const TableRightBar = ({ active, handleClose }) => {
   };
 
   const addContentCell = () => {
-    const curLength = tableState.content.reduce((acc, cur) => cur.length);
-    const column = fillNewColumn(curLength);
-    // tableDispatch({ type: "addColumn", payload: column });
+    const [currentLength] = tableState.content.map(
+      (column) => column.cells.length
+    );
+    const column = fillNewColumn(currentLength);
+
+    tableDispatch({
+      type: "addColumn",
+      payload: {
+        id: uuidv4(),
+        type: "text",
+        cells: column,
+      },
+    });
   };
 
   const addColumn = (type) => {
@@ -112,7 +122,7 @@ export const TableRightBar = ({ active, handleClose }) => {
     <Box ref={tableBarRef} sx={tableRightBarStyle.container}>
       <Box sx={tableRightBarStyle.header}>
         <RightBarHeader />
-        <RightBarClose />
+        <RightBarClose close={handleClose} />
       </Box>
       <Box
         sx={{
@@ -122,7 +132,7 @@ export const TableRightBar = ({ active, handleClose }) => {
       >
         <Box component="span">Type</Box>
       </Box>
-      <RightBarMenuList />
+      <MenuOptions addColumn={addColumn} />
     </Box>
   );
 };

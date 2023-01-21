@@ -3,7 +3,7 @@ import { useState } from "react";
 import { TableRightBar } from "./RightBar";
 import { Box } from "@mui/material";
 
-export const AddColumn = () => {
+export const OpenMenu = () => {
   const [isShowRightBar, setIsShowRightBar] = useState(false);
 
   const handleClose = () => {

@@ -1,15 +1,19 @@
 import { Box } from "@mui/material";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 
-const rightBarClose = {
+const rightBarCloseStyle = {
   display: "flex",
   alignItems: "center",
+  icon: {
+    width: 14,
+    height: 14,
+  },
 };
 
-export const RightBarClose = () => {
+export const RightBarClose = ({ close }) => {
   return (
-    <Box sx={rightBarClose}>
-      <HighlightOffOutlinedIcon sx={{ width: 14, height: 14 }} />
+    <Box onClick={() => close(false)} sx={rightBarCloseStyle}>
+      <HighlightOffOutlinedIcon sx={rightBarCloseStyle.icon} />
     </Box>
   );
 };
