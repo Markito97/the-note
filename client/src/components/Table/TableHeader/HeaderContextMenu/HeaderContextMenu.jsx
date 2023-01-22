@@ -1,13 +1,13 @@
 import { Menu, Box } from "@mui/material";
 import ArrowUpwardOutlinedIcon from "@mui/icons-material/ArrowUpwardOutlined";
 import ArrowDownwardOutlinedIcon from "@mui/icons-material/ArrowDownwardOutlined";
-import { DropdownOption } from "./DropdownOption";
+import { HeaderContextMenuOption } from "./HeaderContextMenuOption";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 
 const handleSort = (array) => {
-  return array.sort((a, b) => b.text - a.text);
+  return array.sort((a, b) => b.value - a.value);
 };
 
 const menuItemProperty = [
@@ -35,7 +35,12 @@ const menuItemProperty = [
   },
 ];
 
-export const Dropdown = ({ active, handleClose, anchorEl, currentColumn }) => {
+export const HeaderContextMenu = ({
+  active,
+  handleClose,
+  anchorEl,
+  currentColumn,
+}) => {
   return (
     <Menu anchorEl={anchorEl} open={active} onClose={handleClose}>
       <Box sx={{ width: "220px", fontSize: 12 }}>
@@ -50,7 +55,7 @@ export const Dropdown = ({ active, handleClose, anchorEl, currentColumn }) => {
         )}
         <Box>
           {menuItemProperty.map((option) => (
-            <DropdownOption
+            <HeaderContextMenuOption
               key={option.prop}
               option={option}
               currentColumn={currentColumn}

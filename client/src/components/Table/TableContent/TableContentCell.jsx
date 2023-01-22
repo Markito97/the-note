@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import { useEffect } from "react";
 import { useState } from "react";
-import { CellForm } from "./CellForm";
+import { TableCellForm } from "./TableCellForm";
 import { createRef } from "react";
 
 const tableContentCellStyle = {
@@ -42,9 +42,9 @@ export const TableContentCell = ({ cell }) => {
   return (
     <Box ref={cellRef} onClick={handleOpen} sx={tableContentCellStyle}>
       <Box style={{ width: cell.width }}>
-        <CellForm
+        <TableCellForm
           active={isOpen}
-          value={cell.text}
+          value={cell.value}
           id={cell.id}
           hanldeClose={hanldeClose}
         />

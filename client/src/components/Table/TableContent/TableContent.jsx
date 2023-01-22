@@ -28,7 +28,12 @@ export const TableContent = () => {
       {tableRows.map((row, index) => (
         <Box
           key={index + 1}
-          sx={{ display: "flex", borderTop: 1, borderColor: "#fff" }}
+          sx={{
+            display: "flex",
+            borderTop: 1,
+            borderColor: "#fff",
+            minHeight: "32px",
+          }}
         >
           {row.map((cell) => (
             <TableContentCell key={cell.id} cell={cell} />

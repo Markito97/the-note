@@ -4,7 +4,18 @@ import { createRef } from "react";
 import { TableContextDispatch, TableContextValue } from "../tableContext";
 import { useEffect } from "react";
 
-export const CellForm = ({ active, value, id, hanldeClose }) => {
+const cellFormStyle = {
+  active: {
+    outline: "none",
+  },
+  inactive: {
+    whiteSpace: "normal",
+    wordBreak: "break-word",
+    pointerEvents: "none",
+  },
+};
+
+export const TableCellForm = ({ active, value, id, hanldeClose }) => {
   const [tableState] = useContext(TableContextValue);
   const [dispatchTable] = useContext(TableContextDispatch);
 
@@ -13,11 +24,10 @@ export const CellForm = ({ active, value, id, hanldeClose }) => {
     hanldeClose(false);
     handleUpdateCellValue(cellRef.current.textContent);
   };
-
   const handleUpdateCellValue = (value) => {
     const newCellValue = tableState.content.map((contentRow) => {
       const updateCellsValue = contentRow.cells.map((cell) =>
-        cell.id === id ? { ...cell, text: value } : { ...cell }
+        cell.id === id ? { ...cell, value: value } : { ...cell }
       );
       return {
         ...contentRow,
@@ -42,7 +52,7 @@ export const CellForm = ({ active, value, id, hanldeClose }) => {
   if (active) {
     return (
       <Box
-        sx={{ outline: "none" }}
+        sx={cellFormStyle.active}
         ref={cellRef}
         onBlur={hanldeValue}
         contentEditable="true"
@@ -52,16 +62,6 @@ export const CellForm = ({ active, value, id, hanldeClose }) => {
       </Box>
     );
   } else {
-    return (
-      <Box
-        sx={{
-          whiteSpace: "normal",
-          wordBreak: "break-word",
-          pointerEvents: "none",
-        }}
-      >
-        {value}
-      </Box>
-    );
+    return <Box sx={cellFormStyle.inactive}>{value}</Box>;
   }
 };

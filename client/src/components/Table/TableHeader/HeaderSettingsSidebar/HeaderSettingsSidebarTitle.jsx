@@ -9,7 +9,7 @@ const rightBarHeaderStyle = {
   textOverflow: "ellipsis",
 };
 
-export const RightBarHeader = () => {
+export const HeaderSettingsSidebarTitle = () => {
   return (
     <Box>
       <Box component="span" sx={rightBarHeaderStyle}>

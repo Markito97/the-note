@@ -1,8 +1,8 @@
 import { Box } from "@mui/system";
 import React, { useContext } from "react";
 import { TableContextValue } from "../tableContext";
-import { AddColumn, OpenMenu } from "./HeaderMenuBar/OpenMenu";
 import { TableHeaderCell } from "./TableHeaderCell";
+import { HeaderView } from "./HeaderView/HeaderView";
 
 const tableHeaderStyles = {
   wrapper: {
@@ -31,7 +31,7 @@ export const TableHeader = ({ startResize }) => {
           />
         ))}
         <Box sx={{ display: "flex" }}>
-          <OpenMenu />
+          <HeaderView />
         </Box>
       </Box>
     </Box>

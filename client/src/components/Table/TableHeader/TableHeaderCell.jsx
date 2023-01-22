@@ -1,13 +1,12 @@
 import { useRef, useState } from "react";
 import { Box } from "@mui/system";
-import { CellColResize } from "./CellColResize";
-import { Dropdown } from "./Dropdown/Dropdown";
+import { HeaderColResize } from "./HeaderColResize/HeaderColResize";
+import { HeaderContextMenu } from "./HeaderContextMenu/HeaderContextMenu";
 import { useContext } from "react";
 import { TableContextValue } from "../tableContext";
 import { useHover } from "../../../hooks/useHover";
 import { useTheme } from "@mui/material";
 import { ColorTokens } from "../../../assets/themes/theme";
-import { useEffect } from "react";
 
 const tableHeadersCellStyle = {
   display: "flex",
@@ -29,9 +28,7 @@ const tableHeadersCellStyle = {
 export const TableHeaderCell = ({ headerCell, index, startResize }) => {
   const theme = useTheme();
   const colors = ColorTokens(theme.palette.mode);
-
   const [hoverRef, isHover] = useHover();
-
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [tableState] = useContext(TableContextValue);
@@ -71,12 +68,12 @@ export const TableHeaderCell = ({ headerCell, index, startResize }) => {
           }}
         >
           <Box style={{ width: headerCell.width }}>
-            <Box>{headerCell.text}</Box>
+            <Box>{headerCell.type}</Box>
           </Box>
         </Box>
-        <CellColResize startResize={startResize} index={index} />
+        <HeaderColResize startResize={startResize} index={index} />
       </Box>
-      <Dropdown
+      <HeaderContextMenu
         active={open}
         handleClose={handleClose}
         anchorEl={anchorEl}

@@ -17,7 +17,7 @@ const dropdownOptionStyle = {
   },
 };
 
-export const DropdownOption = ({ option, currentColumn }) => {
+export const HeaderContextMenuOption = ({ option, currentColumn }) => {
   const [tableState] = useContext(TableContextValue);
   const [tableDispatch] = useContext(TableContextDispatch);
   const handleClick = () => {

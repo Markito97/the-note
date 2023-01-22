@@ -19,7 +19,7 @@ const colResizeStyle = {
   },
 };
 
-export const CellColResize = ({ startResize, index }) => {
+export const HeaderColResize = ({ startResize, index }) => {
   return (
     <Box sx={colResizeStyle.colResizeContainer}>
       <Box

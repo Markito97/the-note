@@ -1,24 +1,24 @@
 import { Box } from "@mui/material";
-import { MenuItem } from "./MenuItem";
 import NotesIcon from "@mui/icons-material/Notes";
 import TagIcon from "@mui/icons-material/Tag";
+import { HeaderSettingSidebarOption } from "./HeaderSettingSidebarOption";
 
 const rightBarProp = [
   {
     icon: <NotesIcon sx={{ width: 16, height: 16 }} />,
-    text: "Text",
+    value: "Text",
   },
   {
     icon: <TagIcon sx={{ width: 16, height: 16 }} />,
-    text: "Number",
+    value: "Number",
   },
 ];
 
-export const MenuOptions = ({ addColumn }) => {
+export const HeaderSettingsSidebarOptions = ({ addColumn }) => {
   return (
     <Box sx={{ paddingTop: "12px" }}>
-      {rightBarProp.map((item, index) => (
-        <MenuItem addColumn={addColumn} key={index + 1} item={item} />
+      {rightBarProp.map((option, index) => (
+        <HeaderSettingSidebarOption key={index + 1} option={option} />
       ))}
     </Box>
   );

@@ -10,7 +10,7 @@ const rightBarCloseStyle = {
   },
 };
 
-export const RightBarClose = ({ close }) => {
+export const HeaderSettingsSidebarClose = ({ close }) => {
   return (
     <Box onClick={() => close(false)} sx={rightBarCloseStyle}>
       <HighlightOffOutlinedIcon sx={rightBarCloseStyle.icon} />

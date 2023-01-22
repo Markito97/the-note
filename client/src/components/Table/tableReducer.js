@@ -3,45 +3,25 @@ import { v4 as uuidv4 } from "uuid";
 export const mockdata = {
   header: [
     {
-      text: "first",
-      width: 200,
-    },
-    {
-      text: "second",
+      type: "Title",
+      _canRemove: false,
       width: 200,
     },
   ],
   content: [
     {
-      type: "text",
+      type: "Text",
       cells: [
         {
-          text: 1,
+          value: "",
           width: 200,
         },
         {
-          text: 2,
+          value: "",
           width: 200,
         },
         {
-          text: 5,
-          width: 200,
-        },
-      ],
-    },
-    {
-      type: "text",
-      cells: [
-        {
-          text: "4",
-          width: 200,
-        },
-        {
-          text: "5",
-          width: 200,
-        },
-        {
-          text: "5",
+          value: "",
           width: 200,
         },
       ],

@@ -1,13 +1,13 @@
-import { Box, useTheme } from "@mui/material";
-import { ColorTokens } from "../../../../assets/themes/theme";
+import { Box } from "@mui/material";
 import { useRef } from "react";
 import { v4 as uuidv4 } from "uuid";
 import { useContext } from "react";
 import { TableContextDispatch, TableContextValue } from "../../tableContext";
 import { useOutside } from "../../../../hooks/useOutside";
-import { RightBarHeader } from "./RightBarHeader";
-import { RightBarClose } from "./RightBarClose";
-import { MenuOptions, RightBarMenuList } from "./MenuOptions";
+import { HeaderSettingsSidebarTitle } from "./HeaderSettingsSidebarTitle";
+import { HeaderSettingsSidebarClose } from "./HeaderSettingsSidebarClose";
+import { HeaderSettingsSidebarType } from "./HeaderSettingsSidebarType";
+import { HeaderSettingsSidebarOptions } from "./HeaderSettingsSidebarOptions";
 
 const tableRightBarStyle = {
   container: {
@@ -41,37 +41,34 @@ const tableRightBarStyle = {
   headerMenuItem: {
     display: "flex",
     alignItems: "center",
-    // bgcolor: `${colors.grey[500]}`,
   },
 };
 
-export const TableRightBar = ({ active, handleClose }) => {
+export const HeaderSettingsSidebar = ({ active, handleClose }) => {
   const tableBarRef = useRef(null);
-  const theme = useTheme();
-  const colors = ColorTokens(theme.palette.mode);
   useOutside(tableBarRef, handleClose, active);
   const [tableState] = useContext(TableContextValue);
   const [tableDispatch] = useContext(TableContextDispatch);
 
-  const validtateTypeColumn = (type) => {
-    let columnProperty;
+  const handleColumnType = (type) => {
+    let columnPropertyType;
     switch (type) {
       case "Text":
-        columnProperty = "Text";
+        columnPropertyType = "Text";
         break;
       case "Number":
-        columnProperty = "Number";
+        columnPropertyType = "Number";
         break;
       default:
         throw new Error("Не корректные данные");
     }
-    return columnProperty;
+    return columnPropertyType;
   };
 
-  const addHeaderCell = (property) => {
+  const handleAddHeaderCell = (property) => {
     const headerCell = {
       id: uuidv4(),
-      text: property,
+      type: property,
       width: 200,
     };
     tableDispatch({
@@ -81,13 +78,13 @@ export const TableRightBar = ({ active, handleClose }) => {
     return headerCell;
   };
 
-  const fillNewColumn = (len) => {
+  const handleFillNewColumn = (columnLength) => {
     const newColumn = [];
     let i = 0;
-    while (i < len) {
+    while (i < columnLength) {
       const contentCell = {
         id: uuidv4(),
-        text: "test",
+        value: "",
         width: 200,
       };
       newColumn.push(contentCell);
@@ -96,45 +93,37 @@ export const TableRightBar = ({ active, handleClose }) => {
     return newColumn;
   };
 
-  const addContentCell = (headerId) => {
+  const handleAddContentCell = (headerCell) => {
     const [currentLength] = tableState.content.map(
       (column) => column.cells.length
     );
-    const column = fillNewColumn(currentLength);
+    const column = handleFillNewColumn(currentLength);
 
     tableDispatch({
       type: "addColumn",
       payload: {
-        id: headerId,
-        type: "text",
+        id: headerCell.id,
+        type: headerCell.type,
         cells: column,
       },
     });
   };
 
-  const addColumn = (type) => {
-    const property = validtateTypeColumn(type);
-    const headerCell = addHeaderCell(property);
-    console.log(headerCell);
-    addContentCell(headerCell.id);
+  const handleAddColumn = (columnType) => {
+    const property = handleColumnType(columnType);
+    const headerCell = handleAddHeaderCell(property);
+    handleAddContentCell(headerCell);
   };
 
   if (!active) return null;
   return (
     <Box ref={tableBarRef} sx={tableRightBarStyle.container}>
       <Box sx={tableRightBarStyle.header}>
-        <RightBarHeader />
-        <RightBarClose close={handleClose} />
+        <HeaderSettingsSidebarTitle />
+        <HeaderSettingsSidebarClose close={handleClose} />
       </Box>
-      <Box
-        sx={{
-          marginTop: "6px",
-          paddingLeft: "14px",
-        }}
-      >
-        <Box component="span">Type</Box>
-      </Box>
-      <MenuOptions addColumn={addColumn} />
+      <HeaderSettingsSidebarType />
+      <HeaderSettingsSidebarOptions addColumn={handleAddColumn} />
     </Box>
   );
 };
