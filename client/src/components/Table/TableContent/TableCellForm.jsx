@@ -19,11 +19,18 @@ export const TableCellForm = ({ active, value, id, hanldeClose }) => {
   const [tableState] = useContext(TableContextValue);
   const [dispatchTable] = useContext(TableContextDispatch);
 
+  const validateNumber = (value) => {
+    return Number(value) ? value : "";
+  };
+
   const cellRef = createRef();
   const hanldeValue = () => {
     hanldeClose(false);
-    handleUpdateCellValue(cellRef.current.textContent);
+    const validateCell = validateNumber(cellRef.current.textContent);
+    console.log(validateCell);
+    handleUpdateCellValue(validateCell);
   };
+
   const handleUpdateCellValue = (value) => {
     const newCellValue = tableState.content.map((contentRow) => {
       const updateCellsValue = contentRow.cells.map((cell) =>
@@ -34,7 +41,7 @@ export const TableCellForm = ({ active, value, id, hanldeClose }) => {
         cells: updateCellsValue,
       };
     });
-
+    console.log(newCellValue);
     dispatchTable({ type: "updateContent", payload: newCellValue });
   };
 

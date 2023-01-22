@@ -45,11 +45,12 @@ const tableRightBarStyle = {
 };
 
 const SettingsSidebarInner = ({ active, handleClose, containerRef }) => {
+  console.log("test");
   const tableBarRef = useRef(null);
   useOutside(tableBarRef, handleClose, active, containerRef);
   const [tableState] = useContext(TableContextValue);
   const [tableDispatch] = useContext(TableContextDispatch);
-
+   
   const handleColumnType = (type) => {
     let columnPropertyType;
     switch (type) {
@@ -78,27 +79,20 @@ const SettingsSidebarInner = ({ active, handleClose, containerRef }) => {
     return headerCell;
   };
 
-  const handleFillNewColumn = (columnLength) => {
-    const newColumn = [];
-    let i = 0;
-    while (i < columnLength) {
-      const contentCell = {
-        id: uuidv4(),
-        value: "",
-        width: 200,
-      };
-      newColumn.push(contentCell);
-      i++;
-    }
-    return newColumn;
+  const handleFillNewColumn = (length, type) => {
+    const column = new Array(length).fill({
+      value: "",
+      width: 200,
+      type: type,
+    });
+    return column.map((cell) => ({ ...cell, id: uuidv4() }));
   };
 
   const handleAddContentCell = (headerCell) => {
     const [currentLength] = tableState.content.map(
       (column) => column.cells.length
     );
-    const column = handleFillNewColumn(currentLength);
-
+    const column = handleFillNewColumn(currentLength, headerCell.type);
     tableDispatch({
       type: "addColumn",
       payload: {

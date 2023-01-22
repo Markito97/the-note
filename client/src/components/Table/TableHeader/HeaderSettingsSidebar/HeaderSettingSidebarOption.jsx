@@ -7,9 +7,9 @@ const menuItemStyle = {
   marginLeft: "14px",
   paddingTop: "5px",
 };
-const HeaderSettingsSidebarOptionInner = ({ option }) => {
+const HeaderSettingsSidebarOptionInner = ({ addColumn, option }) => {
   return (
-    <Box sx={menuItemStyle}>
+    <Box sx={menuItemStyle} onClick={() => addColumn(option.value)}>
       <Box sx={{ display: "flex" }}>{option.icon}</Box>
       <Box sx={{ marginLeft: "5px" }}>{option.value}</Box>
     </Box>

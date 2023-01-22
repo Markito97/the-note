@@ -23,6 +23,7 @@ export const TableContentCell = ({ cell }) => {
   const [isOpen, setIsOpen] = useState(false);
   const cellRef = createRef();
   const handleOpen = () => {
+    console.log(cell);
     setIsOpen(true);
   };
 

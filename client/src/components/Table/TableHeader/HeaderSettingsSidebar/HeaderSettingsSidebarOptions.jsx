@@ -18,7 +18,11 @@ export const HeaderSettingsSidebarOptions = ({ addColumn }) => {
   return (
     <Box sx={{ paddingTop: "12px" }}>
       {rightBarProp.map((option, index) => (
-        <HeaderSettingsSidebarOption key={index + 1} option={option} />
+        <HeaderSettingsSidebarOption
+          addColumn={addColumn}
+          key={index + 1}
+          option={option}
+        />
       ))}
     </Box>
   );
