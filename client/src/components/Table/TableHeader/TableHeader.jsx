@@ -15,22 +15,20 @@ const tableHeaderStyles = {
     borderTop: 1,
     borderColor: "#fff",
   },
+  headerContextMenu: {
+    display: "flex",
+  },
 };
 
-export const TableHeader = ({ startResize }) => {
+export const TableHeader = () => {
   const [tableState] = useContext(TableContextValue);
   return (
     <Box sx={tableHeaderStyles.wrapper}>
       <Box sx={tableHeaderStyles.headersRows}>
         {tableState.header.map((cell, index) => (
-          <TableHeaderCell
-            key={cell + index}
-            headerCell={cell}
-            index={index}
-            startResize={startResize}
-          />
+          <TableHeaderCell key={cell + index} headerCell={cell} index={index} />
         ))}
-        <Box sx={{ display: "flex" }}>
+        <Box sx={tableHeaderStyles.headerContextMenu}>
           <HeaderView />
         </Box>
       </Box>

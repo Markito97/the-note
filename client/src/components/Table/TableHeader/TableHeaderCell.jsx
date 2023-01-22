@@ -25,19 +25,22 @@ const tableHeadersCellStyle = {
   },
 };
 
-export const TableHeaderCell = ({ headerCell, index, startResize }) => {
+const handleFindElementById = (content, id) => {
+  return content.find((cell) => cell.id == id);
+};
+
+export const TableHeaderCell = ({ headerCell, index }) => {
   const theme = useTheme();
   const colors = ColorTokens(theme.palette.mode);
-  const [hoverRef, isHover] = useHover();
   const [open, setOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
   const [tableState] = useContext(TableContextValue);
   const [currentColumn, setCurrentColumn] = useState();
 
-  const handleClick = (event) => {
-    setOpen(true);
+  const handleOpen = (event) => {
+    setOpen((prev) => (prev = true));
     setAnchorEl(event.currentTarget);
-    handleId(headerCell.id);
+    handleSetCurrentColumn(headerCell.id);
   };
 
   const handleClose = () => {
@@ -45,33 +48,21 @@ export const TableHeaderCell = ({ headerCell, index, startResize }) => {
     setAnchorEl(null);
   };
 
-  const handleId = (id) => {
-    const currentId = id;
-    const foundElement = tableState.content.find((el) => el.id == currentId);
-    setCurrentColumn(foundElement);
+  const handleSetCurrentColumn = (id) => {
+    setCurrentColumn(
+      (column) => (column = handleFindElementById(tableState.content, id))
+    );
   };
 
   return (
     <>
-      <Box
-        sx={tableHeadersCellStyle}
-        ref={hoverRef}
-        style={{
-          background: isHover
-            ? `${colors.grey[300]}`
-            : `${colors.primary[500]}`,
-        }}
-      >
-        <Box
-          onClick={(event) => {
-            handleClick(event);
-          }}
-        >
+      <Box sx={tableHeadersCellStyle}>
+        <Box onClick={(event) => handleOpen(event)}>
           <Box style={{ width: headerCell.width }}>
             <Box>{headerCell.type}</Box>
           </Box>
         </Box>
-        <HeaderColResize startResize={startResize} index={index} />
+        <HeaderColResize index={index} />
       </Box>
       <HeaderContextMenu
         active={open}

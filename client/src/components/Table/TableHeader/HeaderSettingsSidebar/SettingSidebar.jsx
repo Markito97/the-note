@@ -44,32 +44,44 @@ const tableRightBarStyle = {
   },
 };
 
+const handleColumnType = (type) => {
+  let columnPropertyType;
+  switch (type) {
+    case "Text":
+      columnPropertyType = "Text";
+      break;
+    case "Number":
+      columnPropertyType = "Number";
+      break;
+    default:
+      throw new Error("Не корректные данные");
+  }
+  return columnPropertyType;
+};
+
+const handleFillNewColumn = (length, type) => {
+  const column = new Array(length).fill({
+    value: "",
+    width: 200,
+    type: type,
+  });
+  return column.map((cell) => ({ ...cell, id: uuidv4() }));
+};
+
+const handleCurrentLength = (content) => {
+  return content.map((column) => column.cells.length);
+};
+
 const SettingsSidebarInner = ({ active, handleClose, containerRef }) => {
-  console.log("test");
   const tableBarRef = useRef(null);
   useOutside(tableBarRef, handleClose, active, containerRef);
   const [tableState] = useContext(TableContextValue);
   const [tableDispatch] = useContext(TableContextDispatch);
-   
-  const handleColumnType = (type) => {
-    let columnPropertyType;
-    switch (type) {
-      case "Text":
-        columnPropertyType = "Text";
-        break;
-      case "Number":
-        columnPropertyType = "Number";
-        break;
-      default:
-        throw new Error("Не корректные данные");
-    }
-    return columnPropertyType;
-  };
 
-  const handleAddHeaderCell = (property) => {
+  const handleAddHeaderCell = (type) => {
     const headerCell = {
       id: uuidv4(),
-      type: property,
+      type: type,
       width: 200,
     };
     tableDispatch({
@@ -79,21 +91,10 @@ const SettingsSidebarInner = ({ active, handleClose, containerRef }) => {
     return headerCell;
   };
 
-  const handleFillNewColumn = (length, type) => {
-    const column = new Array(length).fill({
-      value: "",
-      width: 200,
-      type: type,
-    });
-    return column.map((cell) => ({ ...cell, id: uuidv4() }));
-  };
-
   const handleAddContentCell = (headerCell) => {
-    const [currentLength] = tableState.content.map(
-      (column) => column.cells.length
-    );
+    const [currentLength] = handleCurrentLength(tableState.content);
     const column = handleFillNewColumn(currentLength, headerCell.type);
-    tableDispatch({
+    return tableDispatch({
       type: "addColumn",
       payload: {
         id: headerCell.id,
@@ -104,8 +105,8 @@ const SettingsSidebarInner = ({ active, handleClose, containerRef }) => {
   };
 
   const handleAddColumn = (columnType) => {
-    const property = handleColumnType(columnType);
-    const headerCell = handleAddHeaderCell(property);
+    const type = handleColumnType(columnType);
+    const headerCell = handleAddHeaderCell(type);
     handleAddContentCell(headerCell);
   };
 
