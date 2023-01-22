@@ -1,7 +1,7 @@
 import { Box } from "@mui/material";
 import NotesIcon from "@mui/icons-material/Notes";
 import TagIcon from "@mui/icons-material/Tag";
-import { HeaderSettingSidebarOption } from "./HeaderSettingSidebarOption";
+import { HeaderSettingsSidebarOption } from "./HeaderSettingSidebarOption";
 
 const rightBarProp = [
   {
@@ -18,7 +18,7 @@ export const HeaderSettingsSidebarOptions = ({ addColumn }) => {
   return (
     <Box sx={{ paddingTop: "12px" }}>
       {rightBarProp.map((option, index) => (
-        <HeaderSettingSidebarOption key={index + 1} option={option} />
+        <HeaderSettingsSidebarOption key={index + 1} option={option} />
       ))}
     </Box>
   );

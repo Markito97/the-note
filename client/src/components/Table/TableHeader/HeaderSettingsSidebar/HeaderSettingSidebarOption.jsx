@@ -7,8 +7,7 @@ const menuItemStyle = {
   marginLeft: "14px",
   paddingTop: "5px",
 };
-export const HeaderSettingsSidebarOption = ({ option }) => {
-  console.log(option);
+const HeaderSettingsSidebarOptionInner = ({ option }) => {
   return (
     <Box sx={menuItemStyle}>
       <Box sx={{ display: "flex" }}>{option.icon}</Box>
@@ -16,3 +15,7 @@ export const HeaderSettingsSidebarOption = ({ option }) => {
     </Box>
   );
 };
+
+export const HeaderSettingsSidebarOption = memo(
+  HeaderSettingsSidebarOptionInner
+);

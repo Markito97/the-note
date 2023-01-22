@@ -57,7 +57,6 @@ export function tableReducer(state, action) {
         header: [...action.payload],
       };
     case "updateContent":
-      console.log(action.payload);
       return {
         ...state,
         content: [...action.payload],

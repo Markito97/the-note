@@ -1,18 +1,11 @@
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import { Box, useTheme } from "@mui/material";
-import { useHover } from "../../../../hooks/useHover";
 import { ColorTokens } from "../../../../assets/themes/theme";
-import { HeaderSettingsSidebar } from "../HeaderSettingsSidebar/HeaderSettingsSidebar";
+import { SettingsSidebar } from "../HeaderSettingsSidebar/SettingSidebar";
+import { createRef } from "react";
 
 const headerView = {
-  wrapper: {
-    width: "32px",
-    userSelect: "none",
-    cursor: "pointer",
-    display: "flex",
-    justifyContetn: "flex-start",
-  },
   container: {
     display: "flex",
     width: "32px",
@@ -32,8 +25,11 @@ const headerView = {
 export const HeaderView = () => {
   const theme = useTheme();
   const colors = ColorTokens(theme.palette.mode);
-  const [hoverRef, isHover] = useHover();
+  const headerViewRef = createRef(null);
   const [isActive, setIsActive] = useState(false);
+  const handleOpen = () => {
+    setIsActive(!isActive);
+  };
 
   const handleClose = () => {
     setIsActive(false);
@@ -42,24 +38,30 @@ export const HeaderView = () => {
   return (
     <>
       <Box
-        sx={headerView.wrapper}
-        ref={hoverRef}
-        style={{
-          background: isHover
-            ? `${colors.grey[300]}`
-            : `${colors.primary[500]}`,
+        onClick={handleOpen}
+        sx={{
+          width: "32px",
+          userSelect: "none",
+          cursor: "pointer",
+          display: "flex",
+          justifyContetn: "flex-start",
+          "&:hover": {
+            background: `${colors.grey[300]}`,
+          },
         }}
+        ref={headerViewRef}
       >
         <Box sx={headerView.container}>
-          <AddIcon
-            onClick={() => {
-              setIsActive((prev) => (prev = true));
-            }}
-            sx={headerView.icon}
-          />
+          <AddIcon sx={headerView.icon} />
         </Box>
       </Box>
-      <HeaderSettingsSidebar active={isActive} handleClose={handleClose} />
+      {isActive && (
+        <SettingsSidebar
+          active={isActive}
+          handleClose={handleClose}
+          containerRef={headerViewRef}
+        />
+      )}
     </>
   );
 };
