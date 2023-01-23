@@ -12,6 +12,7 @@ import FormatListBulletedOutlinedIcon from "@mui/icons-material/FormatListBullet
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import { Table } from "../Table/Table";
 import { TablePage } from "../Table/TablePage";
+import { BoardPage } from "../../pages/BoardPage";
 
 const postFormSyle = {
   width: "100%",
@@ -33,6 +34,7 @@ export const PostForm = () => {
   const { id } = useParams();
   const [isEmptyPage, setIsEmptyPage] = useState(false);
   const [isTablePage, setIsTablePage] = useState(false);
+  const [isBoardPage, setIsBoardPage] = useState(false);
   const [isListPage, setIsListPage] = useState(false);
   const [isHide, setIsHide] = useState(true);
   const [state, dispatch] = useContext(ContextApp);
@@ -66,6 +68,7 @@ export const PostForm = () => {
       emptyPage: isEmptyPage,
       listPage: isListPage,
       tablePage: isTablePage,
+      boardpage: isBoardPage,
     };
     const updatedPosts = state.posts.map((note) => {
       if (note.id === id) {
@@ -169,23 +172,11 @@ export const PostForm = () => {
               <Typography sx={{ fontSize: "inherit" }}>Table</Typography>
             </Box>
             <Box
-              sx={{
-                display: "flex",
-                color: `${colors.grey[100]}`,
-                fontSize: 14,
-                alignItems: "center",
-                "&:hover": {
-                  bgcolor: "#525252",
-                  borderRadius: 1.5,
-                },
+              onClick={() => {
+                setIsBoardPage(true);
+                setIsHide(false);
+                setIsFetch(true);
               }}
-            >
-              <FormatListBulletedOutlinedIcon
-                sx={{ paddingLeft: 1.5, marginRight: 1.5 }}
-              />
-              <Typography sx={{ fontSize: "inherit" }}>List</Typography>
-            </Box>
-            <Box
               sx={{
                 display: "flex",
                 color: `${colors.grey[100]}`,
@@ -207,6 +198,7 @@ export const PostForm = () => {
       )}
       {isEmptyPage ? <EmptyPage /> : null}
       {isTablePage ? <TablePage /> : null}
+      {isBoardPage ? <BoardPage /> : null}
     </Box>
   );
 };

@@ -15,45 +15,49 @@ const cellFormStyle = {
   },
 };
 
+const handleSetRange = (element) => {
+  const range = document.createRange();
+  range.selectNodeContents(element);
+  range.collapse(false);
+  const selection = window.getSelection();
+  selection.removeAllRanges();
+  selection.addRange(range);
+};
+
+const handleUpdateCellContent = (contentCells, id, value) => {
+  return contentCells.map((contentRow) => {
+    const updateCellsValue = contentRow.cells.map((cell) =>
+      cell.id === id ? { ...cell, value: value } : { ...cell }
+    );
+    return {
+      ...contentRow,
+      cells: updateCellsValue,
+    };
+  });
+};
+
 export const TableCellForm = ({ active, value, id, hanldeClose }) => {
   const [tableState] = useContext(TableContextValue);
   const [dispatchTable] = useContext(TableContextDispatch);
-
-  const validateNumber = (value) => {
-    return Number(value) ? value : "";
-  };
-
   const cellRef = createRef();
+
   const hanldeValue = () => {
     hanldeClose(false);
-    const validateCell = validateNumber(cellRef.current.textContent);
-    console.log(validateCell);
-    handleUpdateCellValue(validateCell);
+    handleSetContent(cellRef.current.textContent);
   };
 
-  const handleUpdateCellValue = (value) => {
-    const newCellValue = tableState.content.map((contentRow) => {
-      const updateCellsValue = contentRow.cells.map((cell) =>
-        cell.id === id ? { ...cell, value: value } : { ...cell }
-      );
-      return {
-        ...contentRow,
-        cells: updateCellsValue,
-      };
-    });
-    console.log(newCellValue);
-    dispatchTable({ type: "updateContent", payload: newCellValue });
+  const handleSetContent = (value) => {
+    const newCellContent = handleUpdateCellContent(
+      tableState.content,
+      id,
+      value
+    );
+    dispatchTable({ type: "updateContent", payload: newCellContent });
   };
 
   useEffect(() => {
-    if (active) {
-      const range = document.createRange();
-      range.selectNodeContents(cellRef.current);
-      range.collapse(false);
-      const selection = window.getSelection();
-      selection.removeAllRanges();
-      selection.addRange(range);
-    }
+    if (!active) return;
+    handleSetRange(cellRef.current);
   }, [active, cellRef]);
 
   if (active) {
