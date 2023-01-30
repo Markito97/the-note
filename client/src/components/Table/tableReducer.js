@@ -7,8 +7,30 @@ export const mockdata = {
       _canRemove: false,
       width: 200,
     },
+    {
+      type: "Tags",
+      _canRemove: false,
+      width: 200,
+    },
   ],
   content: [
+    {
+      type: "Text",
+      cells: [
+        {
+          value: "",
+          width: 200,
+        },
+        {
+          value: "",
+          width: 200,
+        },
+        {
+          value: "",
+          width: 200,
+        },
+      ],
+    },
     {
       type: "Text",
       cells: [
@@ -51,6 +73,10 @@ export const initialTable = assingIds(mockdata);
 
 export function tableReducer(state, action) {
   switch (action.type) {
+    case "createTable":
+      return {
+        ...action.payload,
+      };
     case "updateHeaders":
       return {
         ...state,

@@ -10,9 +10,8 @@ export class PostService {
     @InjectModel(Post.name) private readonly postModel: Model<PostDocument>,
   ) {}
 
-  async getOne(id: string) {
-    const post = await this.postModel.findOne({ id: id });
-    return post;
+  async getOne(id: any) {
+    return await this.postModel.findById({ _id: id });
   }
 
   async getAllPosts() {
@@ -20,7 +19,7 @@ export class PostService {
   }
 
   async createPost(createPostDto: CreatePostDto) {
-    return this.postModel.create({ ...createPostDto });
+    return await this.postModel.create({ ...createPostDto });
   }
 
   async updatePost(post: any) {

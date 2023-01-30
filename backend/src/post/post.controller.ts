@@ -18,7 +18,7 @@ export class PostController {
   constructor(private postService: PostService) {}
 
   @Get('/getAll')
-  async getAllPosts() {
+  async getAllPosts(@Req() request: Request) {
     return await this.postService.getAllPosts();
   }
 
@@ -28,25 +28,19 @@ export class PostController {
     @Res() response: Response,
     @Body() createPostDto: CreatePostDto,
   ) {
-    response.redirect('http://localhost:3000/welcome');
-    return await this.postService.createPost(createPostDto);
+    const post = await this.postService.createPost(createPostDto);
+    return response.json(post);
   }
 
   @Get('/:id')
   async getOne(@Req() request: Request) {
     const { id } = request.params;
-    console.log(id);
     return await this.postService.getOne(id);
   }
 
-  @Put('/update')
+  @Put('/:id')
   async updatePost(@Req() request: Request, @Res() response: Response) {
     const post = request.body;
-    if (!post._id) {
-      response.status(400).json({ message: 'id не указан' });
-    }
-    console.log(post);
-    console.log(1);
     return await this.postService.updatePost(post);
   }
 

@@ -4,11 +4,14 @@ import { ColorTokens } from "../../assets/themes/theme";
 import AddIcon from "@mui/icons-material/Add";
 import { useContext } from "react";
 import { ContextApp } from "../../store/store";
-import { v4 as uuidv4 } from "uuid";
 import { createPost } from "../../store/action";
 import { useNavigate } from "react-router-dom";
 
-export const PostCreate = () => {
+const noteCreateStyles = {
+  container: { p: 0, display: "flex", justifyContent: "flex-end" },
+};
+
+export const NoteCreate = () => {
   const theme = useTheme();
   const colors = ColorTokens(theme.palette.mode);
   const [state, dispatch] = useContext(ContextApp);
@@ -16,22 +19,23 @@ export const PostCreate = () => {
 
   const handleCreatePost = () => {
     const post = {
-      id: uuidv4(),
-      title: "Title",
-      description: "Description",
-      emptyPage: false,
-      listPage: false,
-      tablePage: false,
+      title: "Untitle",
+      table: false,
+      checkList: false,
+      list: false,
+      empty: false,
       hide: true,
+      fetch: false,
     };
-
-    createPost(post, dispatch);
-    navigate(`/posts/${post.id}`);
+    createPost(post, dispatch).then((data) => {
+      navigate(`/posts/${data._id}`);
+      dispatch({ type: "addPost", payload: data });
+    });
   };
 
   return (
     <Button
-      sx={{ p: 0, display: "flex", justifyContent: "flex-end" }}
+      sx={noteCreateStyles.container}
       onClick={handleCreatePost}
       variant="text"
     >

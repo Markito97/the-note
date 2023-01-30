@@ -6,6 +6,7 @@ import { TableFooter } from "./TableFooter/TableFooter";
 const tableStyle = {
   container: {
     display: "flex",
+    width: "100%",
   },
   tableContainer: {
     width: "100%",

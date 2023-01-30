@@ -2,22 +2,22 @@ import "./App.css";
 import { ThemeProvider, Box } from "@mui/material";
 import { NavBar } from "./components/NavBar/NavBar";
 import { ColorModeContext, useMode } from "./assets/themes/theme";
-import { PostForm } from "./components/PostForm/PostForm";
 import { SideBar } from "./components/SideBar/SideBar";
 import { useReducer } from "react";
 import { postsReducer, initialState, ContextApp } from "./store/store";
 import { useEffect } from "react";
-import { Routes, Route, useParams } from "react-router-dom";
-import { updatePosts } from "./store/action";
+import { Routes, Route } from "react-router-dom";
+import { getPosts } from "./store/action";
+import { NotePage } from "./pages/NotePage";
 
 function App() {
   const [state, dispatch] = useReducer(postsReducer, initialState);
   const [theme, colorMode] = useMode();
 
   useEffect(() => {
-    updatePosts().then((data) =>
-      dispatch({ type: "updateState", payload: data })
-    );
+    getPosts().then((data) => {
+      dispatch({ type: "updateState", payload: data });
+    });
   }, []);
 
   return (
@@ -28,7 +28,7 @@ function App() {
           <Box className="container">
             <SideBar />
             <Routes>
-              <Route path="posts/:id" element={<PostForm />} />
+              <Route path="posts/:id" element={<NotePage />} />
             </Routes>
           </Box>
         </ThemeProvider>

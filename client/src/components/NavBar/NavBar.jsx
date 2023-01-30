@@ -34,7 +34,7 @@ export const NavBar = () => {
 
   return (
     <AppBar sx={navBarStyle.navBar}>
-      <Typography>React Todo List</Typography>
+      <Typography>The Note</Typography>
       <Box>
         <IconButton onClick={colorMode.toggleColorMode}>
           {theme.palette.mode === "dark" ? (

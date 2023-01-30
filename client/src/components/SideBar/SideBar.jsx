@@ -1,51 +1,36 @@
 import { Box, Typography, useTheme } from "@mui/material";
-import { ColorTokens } from "../../assets/themes/theme";
-import { PostCreate } from "../PostCreate/PostCreate";
-import { useContext } from "react";
-import { ContextApp } from "../../store/store";
+import { NoteCreate } from "../NoteCreate/NoteCreate";
 import { SeacrhForm } from "../SearchForm/SearchForm";
 import { PostList } from "../PostList/PostList";
+import { ColorTokens } from "../../assets/themes/theme";
 
-const newPostBtnStyle = {
-  sidebar: {
+const sidebarStyles = {
+  container: {
+    fontSize: 14,
     p: 1,
     borderRight: 1,
-    seacrhBtn: {
-      textTransform: "none",
-      paddingLeft: 0,
-      paddingRight: 0,
-      marginBottom: 2,
-      width: "100%",
-      display: "flex",
-      justifyContent: "flex-start",
-      fontSize: 16,
-    },
+    minWidth: "250px",
   },
-  fontSize: 14,
+  createBtn: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
 };
 
 export const SideBar = () => {
   const theme = useTheme();
   const colors = ColorTokens(theme.palette.mode);
-  const [state] = useContext(ContextApp);
-
-  newPostBtnStyle.sidebar.bgcolor = `${colors.primary[400]}`;
-  newPostBtnStyle.sidebar.color = `${colors.grey[100]}`;
-  newPostBtnStyle.sidebar.seacrhBtn.color = `${colors.grey[100]}`;
+  sidebarStyles.container.background = `${colors.primary[400]}`;
+  sidebarStyles.container.color = `${colors.grey[100]}`;
 
   return (
-    <Box sx={newPostBtnStyle.sidebar}>
+    <Box sx={sidebarStyles.container}>
       <SeacrhForm />
-      <Box
-        sx={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+      <Box sx={sidebarStyles.createBtn}>
         <Typography>Pages</Typography>
-        <PostCreate />
+        <NoteCreate />
       </Box>
       <PostList />
     </Box>

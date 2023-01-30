@@ -1,94 +1,55 @@
-import { ListItem, Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import { Link } from "react-router-dom";
-import { ColorTokens } from "../../assets/themes/theme";
-import { PostItemMenu } from "./PostItemMenu";
 import { useState } from "react";
-import AddIcon from "@mui/icons-material/Add";
-import { createRef } from "react";
+import { ActionMenu } from "./ActionMenu/ActionMenu";
 
-const PostListItemStyle = {
-  width: "100%",
-  display: "flex",
-  alignItems: "center",
-  marginTop: 1,
-  "&:hover": {
-    bgcolor: "#525252",
+const listItemStyle = {
+  container: {
+    paddingBottom: 1,
+  },
+  link: {
+    display: "flex",
+    alignItems: "center",
+    whiteSpace: "nowrap",
+    width: "100%",
+    listStyle: "none",
+    textDecoration: "none",
+    color: "#fff",
+  },
+  linkText: {
+    fontSize: 14,
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+  },
+  content: {
+    paddingLeft: "5px",
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
 };
 
-export const PostItem = ({ post }) => {
-  const theme = useTheme();
-  const colors = ColorTokens(theme.palette.mode);
+export const NoteItem = ({ note }) => {
   const [postId, setPostId] = useState();
-  const handlePostId = () => {
-    setPostId(post.id);
-  };
-
   const [isActive, setIsActive] = useState(false);
-
-  const addIconRef = createRef();
-  const handleActive = () => {
-    setIsActive(true);
-  };
-
-  const handleInactive = () => {
-    setIsActive(false);
-  };
-
+  console.log(note);
   return (
     <Box
-      onClick={handlePostId}
-      onMouseOver={handleActive}
-      onMouseLeave={handleInactive}
-      sx={PostListItemStyle}
+      sx={listItemStyle.container}
+      onClick={() => setPostId(note.id)}
+      onMouseOver={() => setIsActive(true)}
+      onMouseLeave={() => setIsActive(false)}
     >
-      <Link
-        style={{
-          display: "flex",
-          alignItems: "center",
-          width: "100%",
-          listStyle: "none",
-          textDecoration: "none",
-          color: `${colors.grey[100]}`,
-        }}
-        to={`/posts/${post.id}`}
-      >
-        <ArticleOutlinedIcon />
-        <ListItem>
-          <Box
-            sx={{
-              width: 194,
-              whiteSpace: "nowrap",
-            }}
-          >
-            <Box>
-              <Typography
-                sx={{
-                  fontSize: 14,
-                  textOverflow: "ellipsis",
-                  overflow: "hidden",
-                }}
-              >
-                {post.title}
-              </Typography>
-            </Box>
+      <Link style={{ textDecoration: "none" }} to={`/posts/${note._id}`}>
+        <Box sx={listItemStyle.link}>
+          <ArticleOutlinedIcon />
+          <Box sx={listItemStyle.content}>
+            <Typography sx={listItemStyle.linkText}>{note.title}</Typography>
+            <ActionMenu id={postId} active={isActive} />
           </Box>
-        </ListItem>
-        <PostItemMenu
-          sx={{ visibility: "hidden" }}
-          id={postId}
-          active={isActive}
-        />
-        <AddIcon
-          sx={{
-            color: isActive ? `${colors.grey[100]}` : `${colors.primary[400]}`,
-            "&:hover": {
-              bgcolor: `${colors.grey[400]}`,
-              borderRadius: "3px",
-            },
-          }}
-        />
+        </Box>
       </Link>
     </Box>
   );

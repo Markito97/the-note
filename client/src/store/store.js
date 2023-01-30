@@ -12,7 +12,11 @@ export function postsReducer(state, action) {
         ...state,
         posts: [...state.posts, action.payload],
       };
-
+    case "updateNoteTitle":
+      return {
+        ...state,
+        posts: [...action.payload],
+      };
     case "updateState":
       return {
         posts: [...action.payload],

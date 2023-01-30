@@ -1,6 +1,6 @@
 import { useTheme } from "@mui/material";
 import { Box } from "@mui/system";
-import { ColorTokens } from "../../assets/themes/theme";
+import { ColorTokens } from "../assets/themes/theme";
 
 export const EmptyPage = () => {
   const theme = useTheme();

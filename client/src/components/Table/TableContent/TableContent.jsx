@@ -23,6 +23,7 @@ export const TableContent = () => {
   const cells = getCells(tableState.content);
   const rows = convertToRow(cells);
   const tableRows = rotateTableRows(rows);
+
   return (
     <Box>
       {tableRows.map((row, index) => (

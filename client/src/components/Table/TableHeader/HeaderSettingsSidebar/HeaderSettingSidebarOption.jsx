@@ -7,6 +7,7 @@ const menuItemStyle = {
   marginLeft: "14px",
   paddingTop: "5px",
 };
+
 const HeaderSettingsSidebarOptionInner = ({ addColumn, option }) => {
   return (
     <Box sx={menuItemStyle} onClick={() => addColumn(option.value)}>
